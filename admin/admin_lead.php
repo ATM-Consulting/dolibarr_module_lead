@@ -115,40 +115,6 @@ if ($action == 'updateMask') {
 		$error ++;
 	}
 
-	$errordb = 0;
-	$errors = array();
-	if ($force_use_thirdparty == 1) {
-		$sql = 'ALTER TABLE llx_lead ADD INDEX idx_llx_lead_fk_soc (fk_soc)';
-		$resql = $db->query($sql);
-		if (! $resql) {
-			$errordb ++;
-			$errors[] = $db->lasterror;
-		}
-
-		$sql = 'ALTER TABLE llx_lead ADD CONSTRAINT llx_lead_ibfk_3 FOREIGN KEY (fk_soc) REFERENCES llx_societe (rowid)';
-		$resql = $db->query($sql);
-		if (! $resql) {
-			$errordb ++;
-			$errors[] = $db->lasterror;
-		}
-	} else {
-		$sql = 'ALTER TABLE llx_lead DROP FOREIGN KEY llx_lead_ibfk_3';
-		$resql = $db->query($sql);
-		if (! $resql && ($db->errno() != 'DB_ERROR_NOSUCHFIELD' && $db->errno() != 'DB_ERROR_NO_INDEX_TO_DROP')) {
-			$errordb ++;
-			$errors[] = $db->lasterror;
-		}
-		$sql = 'ALTER TABLE llx_lead DROP INDEX idx_llx_lead_fk_soc';
-		$resql = $db->query($sql);
-		if (! $resql && ($db->errno() != 'DB_ERROR_NOSUCHFIELD' && $db->errno() != 'DB_ERROR_NO_INDEX_TO_DROP')) {
-			$errordb ++;
-			$errors[] = $db->lasterror;
-		}
-	}
-	if (! empty($errordb)) {
-		setEventMessages(null, $errors, 'warnings');
-	}
-
 	if (! $error) {
 		setEventMessages($langs->trans("SetupSaved"), null, 'mesgs');
 	} else {
