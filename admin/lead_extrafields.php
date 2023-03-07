@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright (C) 2014-2016 Florian HENRY <florian.henry@atm-consulting.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ $elementtype = 'lead'; // Must be the $table_element of the class that manage ex
 
 if (! $user->admin)
 	accessforbidden();
-	
+
 	/*
  * Actions
  */
@@ -64,7 +64,7 @@ if (file_exists(DOL_DOCUMENT_ROOT . '/core/admin_extrafields.inc.php'))
 
 if (file_exists(DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php'))
 	require_once DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php';
-	
+
 	/*
  * View
  */
@@ -100,19 +100,22 @@ print '<td width="80">&nbsp;</td>';
 print "</tr>\n";
 
 $var = True;
-foreach ($extrafields->attribute_type as $key => $value) {
-	$var = ! $var;
-	print "<tr " . $bc[$var] . ">";
-	print "<td>" . $extrafields->attribute_label[$key] . "</td>\n";
-	print "<td>" . $key . "</td>\n";
-	print "<td>" . $type2label[$extrafields->attribute_type[$key]] . "</td>\n";
-	print '<td align="right">' . $extrafields->attribute_size[$key] . "</td>\n";
-	print '<td align="center">' . yn($extrafields->attribute_unique[$key]) . "</td>\n";
-	print '<td align="center">' . yn($extrafields->attribute_required[$key]) . "</td>\n";
-	print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edit&attrname=' . $key . '">' . img_edit() . '</a>';
-	print "&nbsp; <a href=\"" . $_SERVER["PHP_SELF"] . "?action=delete&attrname=$key\">" . img_delete() . "</a></td>\n";
-	print "</tr>";
+if (is_array($extrafields->attribute_type)){
+	foreach ($extrafields->attribute_type as $key => $value) {
+		$var = ! $var;
+		print "<tr " . $bc[$var] . ">";
+		print "<td>" . $extrafields->attribute_label[$key] . "</td>\n";
+		print "<td>" . $key . "</td>\n";
+		print "<td>" . $type2label[$extrafields->attribute_type[$key]] . "</td>\n";
+		print '<td align="right">' . $extrafields->attribute_size[$key] . "</td>\n";
+		print '<td align="center">' . yn($extrafields->attribute_unique[$key]) . "</td>\n";
+		print '<td align="center">' . yn($extrafields->attribute_required[$key]) . "</td>\n";
+		print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edit&attrname=' . $key . '">' . img_edit() . '</a>';
+		print "&nbsp; <a href=\"" . $_SERVER["PHP_SELF"] . "?action=delete&attrname=$key\">" . img_delete() . "</a></td>\n";
+		print "</tr>";
+	}
 }
+
 
 print "</table>";
 
@@ -134,7 +137,7 @@ if ($action != 'create' && $action != 'edit') {
 if ($action == 'create') {
 	print "<br>";
 	print_fiche_titre($langs->trans('NewAttribute'));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_add.tpl.php';
 }
 
@@ -146,7 +149,7 @@ if ($action == 'create') {
 if ($action == 'edit' && ! empty($attrname)) {
 	print "<br>";
 	print_fiche_titre($langs->trans("FieldEdition", $attrname));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_edit.tpl.php';
 }
 
