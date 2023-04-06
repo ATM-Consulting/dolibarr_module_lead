@@ -217,7 +217,8 @@ class FormLead extends Form
 
 		$lead = new Lead($this->db);
 
-		$result = $lead->fetch_all('DESC', 't.ref', 0, 0, $filter);
+		//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
+		$result = $lead->fetchAll('DESC', 't.ref', 0, 0, $filter);
 		if ($result<0) {
 			setEventMessages(null, $lead->errors, 'errors');
 		}

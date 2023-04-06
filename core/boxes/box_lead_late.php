@@ -75,7 +75,8 @@ class box_lead_late extends ModeleBoxes
 
 		$lead = new Lead($db);
 
-		$lead->fetch_all('DESC', 't.date_closure', $max, 0, array(
+		//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
+		$lead->fetchAll('DESC', 't.date_closure', $max, 0, array(
 			't.date_closure<' => dol_now()
 		));
 
