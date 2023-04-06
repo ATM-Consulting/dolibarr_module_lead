@@ -83,6 +83,7 @@ class Lead extends CommonObject
 		}
 
 		if (! empty($conf->propal->enabled)) {
+			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->rights->propale->lire : $conf->propal->enabled && $user->rights->propal->lire;
 			$this->listofreferent['propal'] = array (
 					'title' => "Proposal",
 					'class' => 'Propal',
@@ -90,7 +91,7 @@ class Lead extends CommonObject
 					'filter' => array (
 							'fk_statut' => '0,1,2'
 					),
-					'test' => $conf->propal->enabled && $user->rights->propale->lire
+					'test' => $propalPerms
 			);
 		}
 		if (! empty($conf->facture->enabled)) {
@@ -477,7 +478,7 @@ class Lead extends CommonObject
 	 *
 	 * @return int <0 if KO, >0 if OK
 	 */
-	function fetch_all($sortorder, $sortfield, $limit, $offset, $filter = array()) {
+	function fetchAll($sortorder, $sortfield, $limit, $offset, $filter = array()) {
 		global $langs,$user;
 
 
@@ -544,7 +545,7 @@ class Lead extends CommonObject
 			$sql .= ' ' . $this->db->plimit($limit + 1, $offset);
 		}
 
-		dol_syslog(get_class($this) . "::fetch_all sql=" . $sql, LOG_DEBUG);
+		dol_syslog(get_class($this) . "::fetchAll sql=" . $sql, LOG_DEBUG);
 		$resql = $this->db->query($sql);
 		if ($resql) {
 			$this->lines = array ();
@@ -588,7 +589,7 @@ class Lead extends CommonObject
 			return $num;
 		} else {
 			$this->error = "Error " . $this->db->lasterror();
-			dol_syslog(get_class($this) . "::fetch_all " . $this->error, LOG_ERR);
+			dol_syslog(get_class($this) . "::fetchAll " . $this->error, LOG_ERR);
 			return - 1;
 		}
 	}
