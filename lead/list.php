@@ -154,7 +154,7 @@ foreach ($search_array_options as $key => $val)
 {
 	$crit=$val;
 	$tmpkey=preg_replace('/search_options_/','',$key);
-	$typ=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$tmpkey] : $extrafields->attribute['lead']['type'][$tmpkey];
+	$typ=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$tmpkey] : $extrafields->attributes['lead']['type'][$tmpkey];
 	if ($val != '') {
 		$option.='&search_options_'.$tmpkey.'='.urlencode($val);
 	}
@@ -210,16 +210,16 @@ if (! empty($conf->margin->enabled)){
 }
 
 // Extra fields
-$TExtrafieldsLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attribute['lead']['label'];
+$TExtrafieldsLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
 if (is_array($TExtrafieldsLabel) && count($TExtrafieldsLabel)) {
 	foreach ($TExtrafieldsLabel as $key => $val ) {
 		$typeofextrafield=$TExtrafieldsLabel[$key];
 		if ($typeofextrafield!='separate') {
 			$arrayfields["leadextra." . $key] = array(
-					'label' => $extrafields->$TExtrafieldsLabel[$key],
-					'checked' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_list[$key] : $extrafields->attribute['lead']['list'][$key],
-					'position' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_pos[$key] : $extrafields->attribute['lead']['pos'][$key],
-					'enabled' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_perms[$key] : $extrafields->attribute['lead']['perms'][$key]
+					'label' => $TExtrafieldsLabel[$key],
+					'checked' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_list[$key] : $extrafields->attributes['lead']['list'][$key],
+					'position' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_pos[$key] : $extrafields->attributes['lead']['pos'][$key],
+					'enabled' => version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_perms[$key] : $extrafields->attributes['lead']['perms'][$key]
 			);
 		}
 	}
@@ -339,7 +339,7 @@ if ($resql != - 1) {
 	if (! empty($arrayfields['t.date_closure']['checked'])) print_liste_field_titre($langs->trans("LeadDeadLine"), $_SERVER['PHP_SELF'], "t.date_closure", "", $option, 'align="right"', $sortfield, $sortorder);
 
 	// Extra fields
-	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attribute['lead']['label'];
+	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
 	if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 	{
 		foreach($TExtrafieldsLabels as $key => $val)
@@ -416,7 +416,7 @@ if ($resql != - 1) {
 
 
 	// Extra fields
-	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attribute['lead']['label'];
+	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
 	if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 	{
 		foreach($TExtrafieldsLabels as $key => $val)
@@ -424,7 +424,7 @@ if ($resql != - 1) {
 			if (! empty($arrayfields["leadextra.".$key]['checked']))
 			{
 				$align=$extrafields->getAlignFlag($key);
-				$typeofextrafield=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attribute['lead']['type'];;
+				$typeofextrafield=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attributes['lead']['type'];;
 				print '<td class="liste_titre'.($align?' '.$align:'').'">';
 				if (in_array($typeofextrafield, array('varchar', 'int', 'double', 'select')))
 				{
@@ -577,7 +577,7 @@ if ($resql != - 1) {
 		}
 
 		// Extra fields
-		$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attribute['lead']['label'];
+		$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
 		if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 		{
 			foreach($TExtrafieldsLabels as $key => $val)
@@ -619,9 +619,9 @@ if ($resql != - 1) {
 	}
 	if (! empty($arrayfields['t.date_closure']['checked'])) print "<td class='liste_total'></td>";
 	// Extra fields
-	if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label))
+	if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 	{
-		foreach($extrafields->attribute_label as $key => $val)
+		foreach($TExtrafieldsLabels as $key => $val)
 		{
 			if (! empty($arrayfields["leadextra.".$key]['checked']))
 			{

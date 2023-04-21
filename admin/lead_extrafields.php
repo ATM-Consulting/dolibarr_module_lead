@@ -100,16 +100,18 @@ print '<td width="80">&nbsp;</td>';
 print "</tr>\n";
 
 $var = True;
-$TExtrafieldsTypes = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attribute['lead']['type'];
+
+$TExtrafieldsTypes = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attributes['lead']['type'];
+
 foreach ($TExtrafieldsTypes as $key => $value) {
 	$var = ! $var;
 	print "<tr " . $bc[$var] . ">";
-	print "<td>" . version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attribute['lead']['label'][$key]. "</td>\n";
+	print "<td>" . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attributes['lead']['label'][$key]). "</td>\n";
 	print "<td>" . $key . "</td>\n";
-	print "<td>" . version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attribute['lead']['type'][$key] . "</td>\n";
-	print '<td align="right">' . version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attribute['lead']['size'][$key] . "</td>\n";
-	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attribute['lead']['unique'][$key]) . "</td>\n";
-	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attribute['lead']['required'][$key]) . "</td>\n";
+	print "<td>" . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attributes['lead']['type'][$key]) . "</td>\n";
+	print '<td align="right">' . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attributes['lead']['size'][$key]) . "</td>\n";
+	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attributes['lead']['unique'][$key]) . "</td>\n";
+	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attributes['lead']['required'][$key]) . "</td>\n";
 	print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edit&attrname=' . $key . '">' . img_edit() . '</a>';
 	print "&nbsp; <a href=\"" . $_SERVER["PHP_SELF"] . "?action=delete&attrname=$key\">" . img_delete() . "</a></td>\n";
 	print "</tr>";
