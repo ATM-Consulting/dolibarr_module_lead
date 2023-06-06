@@ -52,11 +52,12 @@ class box_lead_late extends ModeleBoxes
 	 */
 	public function __construct()
 	{
-		global $langs;
+		global $langs, $user;
 		$langs->load("boxes");
 		$langs->load("lead@lead");
 
 		$this->boxlabel = $langs->transnoentitiesnoconv("LeadListLate");
+        $this->hidden=! ($user->rights->lead->read);
 	}
 
 	/**

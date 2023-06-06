@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## Version 2.3
 
+- FIX : Fix box display with access control - *05/06/2023* - 2.3.18
 - FIX : Compat v17 - *04/04/2023* - 2.3.17
 - FIX : Fix missing list total - *03/04/2023* -2.3.16
 - FIX : Fix bad display of lead in opportunity block - *03/04/2023* - 2.3.15
