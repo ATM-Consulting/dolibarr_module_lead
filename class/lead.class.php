@@ -36,7 +36,7 @@ class Lead extends CommonObject
 	var $errors = array (); // !< To return several error codes (or messages)
 	var $element = 'lead'; // !< Id that identify managed objects
 	var $table_element = 'lead'; // !< Name of table without prefix where object is stored
-	protected $ismultientitymanaged = 1; // 0=No test on entity, 1=Test with field entity, 2=Test with link by societe
+	public  $ismultientitymanaged = 1; // 0=No test on entity, 1=Test with field entity, 2=Test with link by societe
 	var $id;
 	var $ref;
 	var $ref_ext;
