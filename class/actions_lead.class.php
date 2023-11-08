@@ -82,7 +82,7 @@ class ActionsLead // extends CommonObject
 					'so.rowid' => ($object->fk_soc ? $object->fk_soc : $object->socid)
 			);
 			if (count($array_exclude_lead) > 0) {
-				$filter['t.rowid !IN'] = implode($array_exclude_lead, ',');
+				$filter['t.rowid !IN'] = implode(',', $array_exclude_lead);
 			}
 			$selectList = $formlead->select_lead('', 'leadid', 1, $filter);
 			if (! empty($selectList) && (count($lead->doclines) == 0  || ($object->table_element=='contrat' && !empty($conf->global->LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT)))) {
