@@ -45,7 +45,7 @@ $lineid = GETPOST('lineid', 'int');
 $action = GETPOST('action', 'alpha');
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 $object = new Lead($db);
@@ -73,7 +73,7 @@ if (! $error) {
  * Ajout d'un nouveau contact
  */
 
-if ($action == 'addcontact' && $user->rights->lead->write) {
+if ($action == 'addcontact' && $user->hasRight('lead', 'write')) {
 	if ($object->id > 0) {
 		$contactid = (GETPOST('userid', 'int') ? GETPOST('userid', 'int') : GETPOST('contactid', 'int'));
 		$result = $object->add_contact($contactid, $_POST["type"], $_POST["source"]);
@@ -93,14 +93,14 @@ if ($action == 'addcontact' && $user->rights->lead->write) {
 }
 
 // Bascule du statut d'un contact
-else if ($action == 'swapstatut' && $user->rights->lead->write) {
+else if ($action == 'swapstatut' && $user->hasRight('lead', 'write')) {
 	if ($object->id > 0) {
 		$result = $object->swapContactStatus(GETPOST('ligne','alpha'));
 	}
 }
 
 // Efface un contact
-else if ($action == 'deletecontact' && $user->rights->lead->write) {
+else if ($action == 'deletecontact' && $user->hasRight('lead', 'write')) {
 	$result = $object->delete_contact($lineid);
 
 	if ($result >= 0) {

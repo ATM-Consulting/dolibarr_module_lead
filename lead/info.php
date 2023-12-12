@@ -32,7 +32,7 @@ require_once '../lib/lead.lib.php';
 require_once DOL_DOCUMENT_ROOT . '/core/lib/functions2.lib.php';
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 $id = GETPOST('id', 'int');

@@ -114,7 +114,7 @@ function lead_prepare_head($object)
 	$h ++;
 
 	// NOTES
-	if (empty($conf->global->MAIN_DISABLE_NOTES_TAB))
+	if (!getDolGlobalString('MAIN_DISABLE_NOTES_TAB'))
 	{
 		$nbNote = 0;
 		if(!empty($object->note_private)) $nbNote++;

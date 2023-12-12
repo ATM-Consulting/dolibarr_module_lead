@@ -47,7 +47,7 @@ $object = new Lead($db);
 $formother = new FormOther($db);
 if (! empty($conf->margin->enabled)) {
 	$formmargin = new FormMargin($db);
-	$rounding = min($conf->global->MAIN_MAX_DECIMALS_UNIT, $conf->global->MAIN_MAX_DECIMALS_TOT);
+	$rounding = min(getDolGlobalInt('MAIN_MAX_DECIMALS_UNIT'), getDolGlobalInt('MAIN_MAX_DECIMALS_TOT'));
 }
 
 $extrafields = new ExtraFields($db);
@@ -55,7 +55,7 @@ $extralabels = $extrafields->fetch_name_optionals_label($object->table_element, 
 $search_array_options=$extrafields->getOptionalsFromPost($extralabels,'','search_');
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 $sortorder = GETPOST('sortorder', 'alpha');
@@ -277,7 +277,7 @@ if (!empty($socid)) {
 // Count total nb of records
 $nbtotalofrecords = 0;
 
-if (empty($conf->global->MAIN_DISABLE_FULL_SCANLIST)) {
+if (!getDolGlobalString('MAIN_DISABLE_FULL_SCANLIST')) {
 	//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 	$nbtotalofrecords = $object->fetchAll($sortorder, $sortfield, 0, 0, $filter);
 }
@@ -589,6 +589,7 @@ if ($resql != - 1) {
 					if ($align) print ' align="'.$align.'"';
 					print '>';
 					$tmpkey='options_'.$key;
+					if(!isset($line->array_options[$tmpkey])) $line->array_options[$tmpkey] = null;
 					print $extrafields->showOutputField($key, $line->array_options[$tmpkey], '', 'lead');
 					print '</td>';
 				}
@@ -615,7 +616,6 @@ if ($resql != - 1) {
 		if (!empty($arrayfields['margin']['checked'])) {
 			print "<td class='liste_total'>". price($marginInfos['total_margin']). $langs->getCurrencySymbol($conf->currency)."</td>";
 		}
-		print "<td class='liste_total'></td>";
 	}
 	if (! empty($arrayfields['t.date_closure']['checked'])) print "<td class='liste_total'></td>";
 	// Extra fields
@@ -654,7 +654,7 @@ if ($resql != - 1) {
 if (!empty($socid)) {
 	//print '</div>';
 	print '<div class="tabsAction">';
-	if ($user->rights->lead->write)
+	if ($user->hasRight('lead', 'write'))
 	{
 		print '<div class="inline-block divButAction"><a class="butAction" href="'.dol_buildpath('/lead/lead/card.php',1).'?action=create&socid='.$socid.'">'.$langs->trans('LeadCreate').'</a></div>';
 	}

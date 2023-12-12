@@ -20,7 +20,9 @@
  * \ingroup lead
  * \brief Fichier de la classe des actions/hooks des lead
  */
-class ActionsLead // extends CommonObject
+require_once __DIR__.'/../backport/v19/core/class/commonhookactions.class.php';
+
+class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObject
 {
 
 	/**
@@ -34,7 +36,7 @@ class ActionsLead // extends CommonObject
 	function showLinkedObjectBlock($parameters, $object, $action) {
 		global $conf, $langs, $db, $user;
 
-		if (empty($user->rights->lead->read))
+		if (!$user->hasRight('lead', 'read'))
 		{
 			return 0;
 		}
@@ -54,7 +56,7 @@ class ActionsLead // extends CommonObject
 
 			$formlead = new FormLead($db);
 
-			$ret = $lead->fetchLeadLink(($object->rowid ? $id = $object->rowid : $object->id), $object->table_element);
+			$ret = $lead->fetchLeadLink((!empty($object->rowid) ? $id = $object->rowid : $object->id), $object->table_element);
 			if ($ret < 0) {
 				setEventMessages(null, $lead->errors, 'errors');
 			}
@@ -66,12 +68,12 @@ class ActionsLead // extends CommonObject
 
 			print '<br>';
 			print_fiche_titre($langs->trans('Lead'));
-			if (count($lead->doclines) == 0 || ($object->table_element=='contrat' && !empty($conf->global->LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT))) {
+			if (count($lead->doclines) == 0 || ($object->table_element=='contrat' && getDolGlobalString('LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT'))) {
 				print '<form action="' . dol_buildpath("/lead/lead/manage_link.php", 1) . '" method="POST">';
 				print '<input type="hidden" name="token" value="'.(function_exists('newToken')?newToken():$_SESSION['newtoken']).'">';
 				print '<input type="hidden" name="redirect" value="' . $_SERVER['REQUEST_URI'] . '">';
 				print '<input type="hidden" name="tablename" value="' . $object->table_element . '">';
-				print '<input type="hidden" name="elementselect" value="' . ($object->rowid ? $object->rowid : $object->id) . '">';
+				print '<input type="hidden" name="elementselect" value="' . (!empty($object->rowid) ? $object->rowid : $object->id) . '">';
 				print '<input type="hidden" name="action" value="link">';
 			}
 			print "<table class='noborder allwidth'>";
@@ -79,13 +81,13 @@ class ActionsLead // extends CommonObject
 			print "<td>" . $langs->trans('LeadLink') . "</td>";
 			print "</tr>";
 			$filter = array (
-					'so.rowid' => ($object->fk_soc ? $object->fk_soc : $object->socid)
+					'so.rowid' => (!empty($object->fk_soc) ? $object->fk_soc : $object->socid)
 			);
 			if (count($array_exclude_lead) > 0) {
 				$filter['t.rowid !IN'] = implode(',', $array_exclude_lead);
 			}
 			$selectList = $formlead->select_lead('', 'leadid', 1, $filter);
-			if (! empty($selectList) && (count($lead->doclines) == 0  || ($object->table_element=='contrat' && !empty($conf->global->LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT)))) {
+			if (! empty($selectList) && (count($lead->doclines) == 0  || ($object->table_element=='contrat' && getDolGlobalString('LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT')))) {
 				print '<tr>';
 				print '<td>';
 				print $selectList;
@@ -97,7 +99,7 @@ class ActionsLead // extends CommonObject
 			foreach ( $lead->doclines as $line ) {
 				print '<tr><td>';
 				print $line->getNomUrl(1).' - '.$line->ref_int.' ('.$line->status_label.' - '.$line->type_label.')';
-				print '<a href="' . dol_buildpath("/lead/lead/manage_link.php", 1) . '?action=unlink&sourceid=' . ($object->rowid ? $object->rowid : $object->id);
+				print '<a href="' . dol_buildpath("/lead/lead/manage_link.php", 1) . '?action=unlink&sourceid=' . (!empty($object->rowid) ? $object->rowid : $object->id);
 				print '&sourcetype=' . $object->table_element;
 				print '&leadid=' . $line->id;
 				print '&redirect=' . urlencode($_SERVER['REQUEST_URI']);
@@ -106,7 +108,7 @@ class ActionsLead // extends CommonObject
 				print '</tr>';
 			}
 			print "</table>";
-			if (count($lead->doclines) == 0  || ($object->table_element=='contrat' && !empty($conf->global->LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT))) {
+			if (count($lead->doclines) == 0  || ($object->table_element=='contrat' && getDolGlobalString('LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT'))) {
 				print "</form>";
 			}
 		}
@@ -132,7 +134,7 @@ class ActionsLead // extends CommonObject
 		if (in_array('commcard', $current_context) || in_array('thirdpartycomm', $current_context)) {
 			$langs->load("lead@lead");
 
-			if ($user->rights->lead->write) {
+			if ($user->hasRight('lead', 'write')) {
 				$html = '<div class="inline-block divButAction"><a class="butAction" href="' . dol_buildpath('/lead/lead/card.php', 1) . '?action=create&socid=' . $object->id . '">' . $langs->trans('LeadCreate') . '</a></div>';
 			} else {
 				$html = '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="' . dol_escape_htmltag($langs->trans("NotAllowed")) . '">' . $langs->trans('LeadCreate') . '</a></div>';
@@ -148,7 +150,7 @@ class ActionsLead // extends CommonObject
 			$js.= '</script>';
 			print $js;
 
-			if ($user->rights->lead->read) {
+			if ($user->hasRight('lead', 'read')) {
 
 				require_once 'lead.class.php';
 				$lead = new Lead($db);
@@ -213,7 +215,7 @@ class ActionsLead // extends CommonObject
 			require_once 'lead.class.php';
 			$lead = new Lead($db);
 
-			$ret = $lead->fetchLeadLink(($object->rowid ? $id = $object->rowid : $object->id), $object->table_element);
+			$ret = $lead->fetchLeadLink((!empty($object->rowid) ? $id = $object->rowid : $object->id), $object->table_element);
 			if ($ret < 0) {
 				setEventMessages(null, $lead->errors, 'errors');
 			}
@@ -221,7 +223,7 @@ class ActionsLead // extends CommonObject
 			if (count($lead->doclines) == 0) {
 				$langs->load("lead@lead");
 
-				if ($user->rights->lead->write) {
+				if ($user->hasRight('lead', 'write')) {
 					$html = '<div class="inline-block divButAction"><a class="butAction" href="' . dol_buildpath('/lead/lead/card.php', 1) . '?action=create&amp;socid=' . $object->socid . '&amp;amount_guess=' . $object->total_ht . '&amp;propalid=' . $object->id . '">' . $langs->trans('LeadCreate') . '</a></div>';
 				} else {
 					$html = '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="' . dol_escape_htmltag($langs->trans("NotAllowed")) . '">' . $langs->trans('LeadCreate') . '</a></div>';
@@ -254,7 +256,7 @@ class ActionsLead // extends CommonObject
 	public function addSearchEntry($parameters, &$object, &$action, $hookmanager) {
 		global $langs, $db, $user;
 
-		if (empty($user->rights->lead->read)){
+		if (!$user->hasRight('lead', 'read')){
 			return 0;
 		}
 

@@ -83,7 +83,7 @@ class Lead extends CommonObject
 		}
 
 		if (! empty($conf->propal->enabled)) {
-			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->rights->propale->lire : $conf->propal->enabled && $user->rights->propal->lire;
+			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->hasRight('propale', 'lire') : $conf->propal->enabled && $user->hasRight('propal', 'lire');
 			$this->listofreferent['propal'] = array (
 					'title' => "Proposal",
 					'class' => 'Propal',
@@ -99,7 +99,7 @@ class Lead extends CommonObject
 					'title' => "Bill",
 					'class' => 'Facture',
 					'table' => 'facture',
-					'test' => $conf->facture->enabled && $user->rights->facture->lire
+					'test' => $conf->facture->enabled && $user->hasRight('facture', 'lire')
 			);
 		}
 		if (! empty($conf->contrat->enabled)) {
@@ -107,7 +107,7 @@ class Lead extends CommonObject
 					'title' => "Contrat",
 					'class' => 'Contrat',
 					'table' => 'contrat',
-					'test' => $conf->contrat->enabled && $user->rights->contrat->lire
+					'test' => $conf->contrat->enabled && $user->hasRight('contrat', 'lire')
 			);
 		}
 		if (! empty($conf->commande->enabled)) {
@@ -115,7 +115,7 @@ class Lead extends CommonObject
 					'title' => "Commande",
 					'class' => 'Commande',
 					'table' => 'commande',
-					'test' => $conf->commande->enabled && $user->rights->commande->lire
+					'test' => $conf->commande->enabled && $user->hasRight('commande', 'lire')
 			);
 		}
 
@@ -124,7 +124,7 @@ class Lead extends CommonObject
 					'title' => "Event",
 					'class' => 'ActionComm',
 					'table' => 'actioncomm',
-					'test' => $conf->agenda->enabled && $user->rights->agenda->myactions->read
+					'test' => $conf->agenda->enabled && $user->hasRight('agenda', 'myactions', 'read')
 					,'disableamount'=>true
 			);
 		}
@@ -206,12 +206,11 @@ class Lead extends CommonObject
 		$a->socid = $this->fk_soc;
 		$a->datep = $dateRelance;
 		$a->userownerid = $this->fk_user_author;
-		$a->type_code = empty($conf->global->AGENDA_USE_EVENT_TYPE) || empty($conf->global->LEAD_EVENT_RELANCE_TYPE) ? 'AC_OTH' : $conf->global->LEAD_EVENT_RELANCE_TYPE;
+		$a->type_code = getDolGlobalString('LEAD_EVENT_RELANCE_TYPE', 'AC_OTH');
 		$a->fk_element = $this->id;
 		$a->elementtype = 'lead';
 
 		$actionCommCreationReturn = method_exists($a, 'create') ? $a->create($user) : $a->add($user);
-
 		if ($actionCommCreationReturn <= 0)
 		{
 			setEventMessage($langs->trans("ImpossibleToCreateEventLead"), "errors");
@@ -268,7 +267,7 @@ class Lead extends CommonObject
 			// Check parameters
 			// Put here code to add control on parameters values
 
-		if (! empty($conf->global->LEAD_FORCE_USE_THIRDPARTY)) {
+		if (getDolGlobalString('LEAD_FORCE_USE_THIRDPARTY')) {
 			if (empty($this->fk_soc)) {
 				$error ++;
 				$this->errors[] = $langs->trans('ErrorFieldRequired', $langs->transnoentities('Customer'));
@@ -370,7 +369,7 @@ class Lead extends CommonObject
 
 		if (! $error) {
 
-			if (empty($conf->global->MAIN_EXTRAFIELDS_DISABLED)) {
+			if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 				$result = $this->insertExtraFields();
 				if ($result < 0) {
 					$error ++;
@@ -509,7 +508,7 @@ class Lead extends CommonObject
 		$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "c_lead_type as leadtype ON leadtype.rowid=t.fk_c_type";
 		$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "lead_extrafields as leadextra ON leadextra.fk_object=t.rowid";
 
-		if (!$user->rights->societe->client->voir) {
+		if (!$user->hasRight('societe', 'client', 'voir')) {
 			$sql .= " INNER JOIN " . MAIN_DB_PREFIX . "societe_commerciaux as sc ON sc.fk_soc=t.fk_soc AND sc.fk_user = " .$user->id;
 		}
 
@@ -637,7 +636,7 @@ class Lead extends CommonObject
 			// Check parameters
 			// Put here code to add a control on parameters values
 
-		if (! empty($conf->global->LEAD_FORCE_USE_THIRDPARTY)) {
+		if (getDolGlobalString('LEAD_FORCE_USE_THIRDPARTY')) {
 			if (empty($this->fk_soc)) {
 				$error ++;
 				$this->errors[] = $langs->trans('ErrorFieldRequired', $langs->transnoentities('Customer'));
@@ -715,7 +714,7 @@ class Lead extends CommonObject
 		if (! $error) {
 
 			// For avoid conflicts if trigger used
-			if (empty($conf->global->MAIN_EXTRAFIELDS_DISABLED))
+			if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED'))
 			{
 				$result = $this->insertExtraFields();
 				if ($result < 0) {
@@ -855,6 +854,7 @@ class Lead extends CommonObject
 	 * @return void
 	 */
 	function initAsSpecimen() {
+		global $conf;
 		$this->id = 0;
 		$this->entity = $conf->entity;
 		$this->ref = '';
@@ -891,7 +891,7 @@ class Lead extends CommonObject
 				'/'
 		), ( array ) $conf->modules_parts['models']);
 
-		if (! empty($conf->global->LEAD_ADDON)) {
+		if (getDolGlobalString('LEAD_ADDON')) {
 			foreach ( $dirmodels as $reldir ) {
 				$dir = dol_buildpath($reldir . "core/modules/lead/");
 				if (is_dir($dir)) {
@@ -900,14 +900,14 @@ class Lead extends CommonObject
 						$var = true;
 
 						while ( ($file = readdir($handle)) !== false ) {
-							if ($file == $conf->global->LEAD_ADDON . '.php') {
+							if ($file == getDolGlobalString('LEAD_ADDON') . '.php') {
 								$file = substr($file, 0, dol_strlen($file) - 4);
 								require_once $dir . $file . '.php';
 
 								$module = new $file();
 
 								// Chargement de la classe de numerotation
-								$classname = $conf->global->LEAD_ADDON;
+								$classname = getDolGlobalString('LEAD_ADDON');
 
 								$obj = new $classname();
 
@@ -956,8 +956,11 @@ class Lead extends CommonObject
 				$this->id = $obj->rowid;
 				$this->date_creation = $this->db->jdate($obj->datec);
 				$this->date_modification = $this->db->jdate($obj->tms);
-				$this->user_modification = $obj->fk_user_mod;
-				$this->user_creation = $obj->fk_user_author;
+
+				if(property_exists($this, 'user_modification')) $this->user_modification = $obj->fk_user_mod; // deprecated v19
+				if(property_exists($this, 'user_modification_id')) $this->user_modification_id = $obj->fk_user_mod;
+				if(property_exists($this, 'user_creation')) $this->user_creation = $obj->fk_user_author; // deprecated v19
+				if(property_exists($this, 'user_creation_id')) $this->user_creation_id = $obj->fk_user_author;
 			}
 			$this->db->free($resql);
 			return 1;
@@ -1102,16 +1105,16 @@ class Lead extends CommonObject
 
 		$sql = "SELECT MAX(te." . $fieldid . ")";
 		$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element . " as te";
-		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && empty($user->rights->societe->client->voir)))
+		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && !$user->hasRight('societe', 'client', 'voir')))
 			$sql .= ", " . MAIN_DB_PREFIX . "societe as s"; // entity
-		if (empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir)
+		if (empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir'))
 			$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "societe_commerciaux as sc ON " . $alias . ".rowid = sc.fk_soc";
 		$sql .= " WHERE te." . $fieldid . " < '" . $this->db->escape($this->id) . "'";
-		if (empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir)
+		if (empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir'))
 			$sql .= " AND sc.fk_user = " . $user->id;
 		if (! empty($filter))
 			$sql .= " AND " . $filter;
-		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir))
+		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir')))
 			$sql .= ' AND te.fk_soc = s.rowid';
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 1)
 			$sql .= ' AND te.entity IN (' . getEntity($this->element, 1) . ')';
@@ -1127,16 +1130,16 @@ class Lead extends CommonObject
 
 		$sql = "SELECT MIN(te." . $fieldid . ")";
 		$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element . " as te";
-		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir))
+		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir')))
 			$sql .= ", " . MAIN_DB_PREFIX . "societe as s";
-		if (empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir)
+		if (empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir'))
 			$sql .= " LEFT JOIN " . MAIN_DB_PREFIX . "societe_commerciaux as sc ON " . $alias . ".rowid = sc.fk_soc";
 		$sql .= " WHERE te." . $fieldid . " > '" . $this->db->escape($this->id) . "'";
-		if (empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir)
+		if (empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir'))
 			$sql .= " AND sc.fk_user = " . $user->id;
 		if (! empty($filter))
 			$sql .= " AND " . $filter;
-		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->rights->societe->client->voir))
+		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 2 || ($this->element != 'societe' && empty($this->isnolinkedbythird) && ! $user->hasRight('societe', 'client', 'voir')))
 			$sql .= ' AND te.fk_soc = s.rowid'; // If
 
 		if (isset($this->ismultientitymanaged) && $this->ismultientitymanaged == 1)
@@ -1490,7 +1493,7 @@ class Lead extends CommonObject
 		if (! empty($conf->dol_no_mouse_hover))
 			$notooltip = 1;
 
-		if ($conf->global->SOCIETE_ADD_REF_IN_LIST && (! empty($withpicto))) {
+		if (getDolGlobalInt('SOCIETE_ADD_REF_IN_LIST') && (! empty($withpicto))) {
 			if (($this->client) && (! empty($this->code_client))) {
 				$code = $this->thirdparty->code_client . ' - ';
 			}

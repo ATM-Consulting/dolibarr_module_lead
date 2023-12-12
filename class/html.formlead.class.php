@@ -105,8 +105,8 @@ class FormLead extends Form
 					$i ++;
 				}
 				$sellist .= '</select>';
+				return $sellist;
 			}
-			return $sellist;
 		}
 		$this->db->free($resql);
 
