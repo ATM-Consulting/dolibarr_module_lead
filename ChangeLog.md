@@ -1,6 +1,8 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+- NEW : Compat v19 - *12/12/2023* - 2.4.0
+
 
 ## Version 2.3
 - FIX : change parameters order for implode function (deprecated since PHP 7.4) - *08/11/2023* - 2.3.20
