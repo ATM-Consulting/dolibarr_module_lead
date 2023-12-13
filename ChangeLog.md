@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 - NEW : Compat v19 - *12/12/2023* - 2.4.0
+  Change dolibarr compatibility 12 min  - 19 max
 
 
 ## Version 2.3
