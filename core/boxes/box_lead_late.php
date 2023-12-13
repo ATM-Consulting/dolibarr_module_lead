@@ -57,7 +57,7 @@ class box_lead_late extends ModeleBoxes
 		$langs->load("lead@lead");
 
 		$this->boxlabel = $langs->transnoentitiesnoconv("LeadListLate");
-        $this->hidden=! ($user->rights->lead->read);
+        $this->hidden=! ($user->hasRight('lead', 'read'));
 	}
 
 	/**

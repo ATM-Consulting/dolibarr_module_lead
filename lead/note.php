@@ -35,7 +35,7 @@ $ref=GETPOST('ref','alpha');
 $action=GETPOST('action','alpha');
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 $object = new Lead($db);
@@ -49,8 +49,8 @@ if ($id > 0) {
 		setEventMessage($object->error, 'errors');
 }
 
-$permissionnote=$user->rights->lead->write;	// Used by the include of actions_setnotes.inc.php
-$permission=$user->rights->lead->write;
+$permissionnote=$user->hasRight('lead', 'write');	// Used by the include of actions_setnotes.inc.php
+$permission=$user->hasRight('lead', 'write');
 
 /*
  * Actions

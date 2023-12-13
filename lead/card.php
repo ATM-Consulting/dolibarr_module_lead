@@ -39,11 +39,11 @@ if (! empty($conf->commande->enabled))
 if (! empty($conf->agenda->enabled))
 	dol_include_once('/comm/action/class/actioncomm.class.php');
 
-if (! empty($conf->global->LEAD_GRP_USER_AFFECT))
+if (getDolGlobalString('LEAD_GRP_USER_AFFECT'))
 	require_once DOL_DOCUMENT_ROOT . '/user/class/usergroup.class.php';
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 if (function_exists('newToken')) $urlToken = "&token=".newToken();
@@ -83,9 +83,9 @@ $error = 0;
 
 // Limuit uer list to groups
 $includeuserlist = array();
-if (! empty($conf->global->LEAD_GRP_USER_AFFECT)) {
+if (getDolGlobalInt('LEAD_GRP_USER_AFFECT')) {
 	$usergroup = new UserGroup($db);
-	$result = $usergroup->fetch($conf->global->LEAD_GRP_USER_AFFECT);
+	$result = $usergroup->fetch(getDolGlobalInt('LEAD_GRP_USER_AFFECT'));
 	if ($result < 0)
 		setEventMessages(null, $usergroup->errors, 'errors');
 
@@ -192,7 +192,7 @@ if ($action == "add") {
 	} else {
 		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $object->id);
 	}
-} elseif ($action == 'confirm_delete' && $confirm == 'yes' && $user->rights->lead->delete) {
+} elseif ($action == 'confirm_delete' && $confirm == 'yes' && $user->hasRight('lead', 'delete')) {
 	$result = $object->delete($user);
 	if ($result < 0) {
 		setEventMessages(null, $object->errors, 'errors');
@@ -330,8 +330,8 @@ if ($action == "add") {
 		$object->addRelance($date_relance +(3600*12)); // +12heures
 		setEventMessage($langs->trans('relanceAdded'));
 	}
-} else if (strpos($action, 'ext_head') !== false && ! empty($conf->global->LEAD_PERSONNAL_TEMPLATE) && file_exists(dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE))) {
-	$res = include dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE);
+} else if (strpos($action, 'ext_head') !== false && getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') && file_exists(dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE')))) {
+	$res = include dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE'));
 }
 
 /*
@@ -381,10 +381,10 @@ if ($action === 'create_contract') {
 	print $form->formconfirm("card.php?id=" . $object->id, $langs->trans("LeadCreateContract"), $langs->trans("LeadConfirmCreateContract"), "confirm_create_contract", array(), '', 1);
 }
 // Add new proposal
-if ($action == 'create' && $user->rights->lead->write) {
+if ($action == 'create' && $user->hasRight('lead', 'write')) {
 
-	if (! empty($conf->global->LEAD_PERSONNAL_TEMPLATE) && file_exists(dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE))) {
-		$res = include dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE);
+	if (getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') && file_exists(dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE')))) {
+		$res = include dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE'));
 	} else {
 
 		dol_fiche_head();
@@ -436,7 +436,7 @@ if ($action == 'create' && $user->rights->lead->write) {
 		print '</tr>';
 
 		print '<tr>';
-		if (! empty($conf->global->LEAD_FORCE_USE_THIRDPARTY)) {
+		if (getDolGlobalString('LEAD_FORCE_USE_THIRDPARTY')) {
 			print '<td class="fieldrequired">';
 		} else {
 			print '<td>';
@@ -465,7 +465,7 @@ if ($action == 'create' && $user->rights->lead->write) {
 		print '<td>';
 
 		if (strlen($deadline) == 0) {
-			$deadline = dol_time_plus_duree(dol_now(), $conf->global->LEAD_NB_DAY_COSURE_AUTO, 'd');
+			$deadline = dol_time_plus_duree(dol_now(), getDolGlobalString('LEAD_NB_DAY_COSURE_AUTO'), 'd');
 		}
 
 		print $form->select_date($deadline, 'deadline', 0, 0, 0, "addlead", 1, 1, 0, 0);
@@ -487,7 +487,7 @@ if ($action == 'create' && $user->rights->lead->write) {
 		print $langs->trans('LeadDescription');
 		print '</td>';
 		print '<td>';
-		$doleditor = new DolEditor('description', $object->description, '', 160, 'dolibarr_notes', 'In', true, false, !empty($conf->global->FCKEDITOR_ENABLE) || !empty($conf->global->FCKEDITOR_ENABLE_SOCIETE), 4, 90);
+		$doleditor = new DolEditor('description', $object->description, '', 160, 'dolibarr_notes', 'In', true, false, getDolGlobalString('FCKEDITOR_ENABLE') || getDolGlobalString('FCKEDITOR_ENABLE_SOCIETE'), 4, 90);
 		$doleditor->Create();
 		print '</td>';
 		print '</tr>';
@@ -517,8 +517,8 @@ elseif ($action == 'edit') {
 	$head = lead_prepare_head($object);
 	dol_fiche_head($head, 'card', $langs->trans('Module103111Name'), 0, dol_buildpath('/lead/img/object_lead.png', 1), 1);
 
-	if (! empty($conf->global->LEAD_PERSONNAL_TEMPLATE) && file_exists(dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE))) {
-		$res = include dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE);
+	if (getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') && file_exists(dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE')))) {
+		$res = include dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE'));
 	} else {
 
 		print '<form name="editlead" action="' . $_SERVER["PHP_SELF"] . '?id=' . $object->id . '" method="POST">';
@@ -563,7 +563,7 @@ elseif ($action == 'edit') {
 		print '</tr>';
 
 		print '<tr>';
-		if (! empty($conf->global->LEAD_FORCE_USE_THIRDPARTY)) {
+		if (getDolGlobalString('LEAD_FORCE_USE_THIRDPARTY')) {
 			print '<td class="fieldrequired">';
 		} else {
 			print '<td>';
@@ -599,7 +599,7 @@ elseif ($action == 'edit') {
 		print $langs->trans('LeadDescription');
 		print '</td>';
 		print '<td>';
-		$doleditor = new DolEditor('description', $object->description, '', 160, 'dolibarr_notes', 'In', true, false, $conf->global->FCKEDITOR_ENABLE || $conf->global->FCKEDITOR_ENABLE_SOCIETE, 4, 90);
+		$doleditor = new DolEditor('description', $object->description, '', 160, 'dolibarr_notes', 'In', true, false, getDolGlobalString('FCKEDITOR_ENABLE') || getDolGlobalString('FCKEDITOR_ENABLE_SOCIETE'), 4, 90);
 		$doleditor->Create();
 		print '</td>';
 		print '</tr>';
@@ -729,8 +729,8 @@ elseif ($action == 'edit') {
 	}
 	$linkback = '<a href="' . dol_buildpath('/lead/lead/list.php', 1) . '">' . $langs->trans("BackToList") . '</a>';
 
-	if (! empty($conf->global->LEAD_PERSONNAL_TEMPLATE) && file_exists(dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE))) {
-		$res = include dol_buildpath($conf->global->LEAD_PERSONNAL_TEMPLATE);
+	if (getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') && file_exists(dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE')))) {
+		$res = include dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE'));
 	} else {
 
 		if ($printformconfirm) {
@@ -850,16 +850,16 @@ elseif ($action == 'edit') {
 		print '<div class="tabsAction">';
 	}
 
-	if ($user->rights->lead->write) {
+	if ($user->hasRight('lead', 'write')) {
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=edit'.$urlToken.'">' . $langs->trans("Edit") . "</a></div>\n";
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone'.$urlToken.'">' . $langs->trans("Clone") . "</a></div>\n";
 
-		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->rights->propale->lire : $conf->propal->enabled && $user->rights->propal->lire;
+		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->hasRight('propale', 'lire') : $conf->propal->enabled && $user->hasRight('propal', 'lire');
 		if ($propalPerms) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_propale'.$urlToken.'">' . $langs->trans("LeadCreatePropale") . "</a></div>\n";
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone_propale'.$urlToken.'">' . $langs->trans("LeadClonePropale") . "</a></div>\n";
 		}
-		if ($conf->contract->enabled && $user->rights->contrat->creer) {
+		if ($conf->contract->enabled && $user->hasRight('contrat', 'creer')) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_contract'.$urlToken.'">' . $langs->trans("LeadCreateContract") . "</a></div>\n";
 		}
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_relance'.$urlToken.'">' . $langs->trans("CreateRelance") . "</a></div>\n";
@@ -876,7 +876,7 @@ elseif ($action == 'edit') {
 	}
 
 	// Delete
-	if ($user->rights->lead->delete) {
+	if ($user->hasRight('lead', 'delete')) {
 		print '<div class="inline-block divButAction"><a class="butActionDelete" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=delete'.$urlToken.'">' . $langs->trans("Delete") . "</a></div>\n";
 	} else {
 		print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="' . dol_escape_htmltag($langs->trans("anoughPermissions")) . '">' . $langs->trans("Delete") . "</a></div>";
@@ -957,14 +957,15 @@ elseif ($action == 'edit') {
 					print "</td>\n";
 
 					// Date
-					$date = $element->date;
-					if (empty($date)) {
+					$date= '';
+					if(!empty($element->date)) $date = $element->date;
+					if (empty($date) && !empty($element->datep)) {
 						$date = $element->datep;
 					}
-					if (empty($date)) {
+					if (empty($date)  && !empty($element->date_contrat)) {
 						$date = $element->date_contrat;
 					}
-					if (empty($date)) {
+					if (empty($date) && !empty($element->datev)) {
 						$date = $element->datev; // Fiche inter
 					}
 					print '<td align="center">' . dol_print_date($date, 'day') . '</td>';

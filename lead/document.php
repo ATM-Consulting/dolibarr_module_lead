@@ -41,7 +41,7 @@ $action=GETPOST('action','alpha');
 $confirm=GETPOST('confirm', 'alpha');
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 // Get parameters
@@ -55,7 +55,7 @@ $pageprev = $page - 1;
 $pagenext = $page + 1;
 if (! $sortorder) $sortorder="ASC";
 if (! $sortfield) $sortfield="name";
-$permissiontoadd = $user->rights->lead->write;
+$permissiontoadd = $user->hasRight('lead', 'write');
 $object = new Lead($db);
 if ($id > 0) {
 	$ret = $object->fetch($id);
@@ -145,7 +145,7 @@ if ($id > 0 || ! empty($ref))
 
 
 		$modulepart = 'lead';
-		$permission = $user->rights->lead->write;
+		$permission = $user->hasRight('lead', 'write');
 		$param = '&id=' . $object->id;
 		include_once DOL_DOCUMENT_ROOT . '/core/tpl/document_actions_post_headers.tpl.php';
 
