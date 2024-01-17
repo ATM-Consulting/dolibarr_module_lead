@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   version="1.1"
+   id="_x32_"
+   viewBox="0 0 48 48"
+   xml:space="preserve"
+   sodipodi:docname="object_module.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   width="48"
+   height="48"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs17">
+	
+	
+	
+	
+</defs><sodipodi:namedview
+   id="namedview15"
+   pagecolor="#505050"
+   bordercolor="#ffffff"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="1"
+   showgrid="false"
+   inkscape:zoom="1.4042969"
+   inkscape:cx="256"
+   inkscape:cy="256"
+   inkscape:window-width="1920"
+   inkscape:window-height="970"
+   inkscape:window-x="1920"
+   inkscape:window-y="27"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="_x32_" />
+<style
+   type="text/css"
+   id="style2">
+	.st0{fill:#000000;}
+</style>
+<g
+   id="g892"
+   transform="scale(0.09375)"><g
+     id="g885"><polygon
+       class="st0"
+       points="0,237.078 207.336,285.867 207.336,254.938 303.336,254.938 303.336,285.867 512,236.766 512,129.602 0,129.602 "
+       id="polygon4"
+       style="fill:#00384e;fill-opacity:1" /><polygon
+       class="st0"
+       points="207.336,382.938 207.336,318.586 0,269.805 0,505.602 512,505.602 512,269.492 303.336,318.586 303.336,382.938 "
+       id="polygon6"
+       style="fill:#00384e;fill-opacity:1" /><rect
+       x="231.336"
+       y="278.93799"
+       class="st0"
+       width="48"
+       height="80"
+       id="rect8"
+       style="fill:#cb4f24;fill-opacity:1" /></g><path
+     class="st0"
+     d="m 180.398,56.805 c 0.008,-2.062 0.774,-3.726 2.11,-5.102 1.375,-1.336 3.039,-2.094 5.094,-2.11 h 136.797 c 2.054,0.016 3.719,0.774 5.094,2.11 1.336,1.375 2.094,3.039 2.11,5.102 v 36 h 43.195 v -36 C 374.806,42.954 369.126,30.219 360.032,21.156 350.986,12.078 338.251,6.39 324.399,6.398 H 187.602 c -13.851,-0.008 -26.586,5.68 -35.641,14.758 -9.086,9.063 -14.774,21.798 -14.758,35.649 v 36 h 43.195 z"
+     id="path10"
+     style="fill:#00384e;fill-opacity:1" /></g>
+</svg>

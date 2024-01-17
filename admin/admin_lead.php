@@ -164,16 +164,16 @@ llxHeader('', $langs->trans($page_name));
 
 // Subheader
 $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">' . $langs->trans("BackToModuleList") . '</a>';
-print_fiche_titre($langs->trans($page_name), $linkback);
+print load_fiche_titre($langs->trans($page_name), $linkback, "tools");
 
 // Configuration header
 $head = leadAdminPrepareHead();
-dol_fiche_head($head, 'settings', $langs->trans("Module103111Name"), 0, "lead@lead");
+print dol_get_fiche_head($head, 'settings', $langs->trans("Module103111Name"), -1, "tools");
 
 /*
  * Module numerotation
  */
-print_fiche_titre($langs->trans("LeadSetupPage"));
+print load_fiche_titre($langs->trans("LeadSetupPage"), '',"tools");
 
 $dirmodels = array_merge(array(
 		'/'
@@ -276,7 +276,7 @@ foreach ( $dirmodels as $reldir ) {
 print "</table><br>\n";
 
 // Admin var of module
-print_fiche_titre($langs->trans("LeadAdmVar"));
+print load_fiche_titre($langs->trans("LeadAdmVar"), '',"tools");
 
 print '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" >';
 print '<input type="hidden" name="token" value="'.(function_exists('newToken')?newToken():$_SESSION['newtoken']).'">';
@@ -345,7 +345,7 @@ print '</tr>';
 print '</table><br>';
 print '</form>';
 
-dol_fiche_end();
+print dol_get_fiche_end(-1);
 
 llxFooter();
 

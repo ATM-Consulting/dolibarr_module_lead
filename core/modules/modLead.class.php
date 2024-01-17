@@ -65,7 +65,7 @@ class modLead extends DolibarrModules
 		$this->description = "Description of module Lead";
 		// Possible values for version are: 'development', 'experimental' or version
 
-		$this->version = '2.4.0';
+		$this->version = '2.5.0';
 
 		// Key used in llx_const table to save module status enabled/disabled
 		// (where MYMODULE is value of property name of module in uppercase)
@@ -78,7 +78,7 @@ class modLead extends DolibarrModules
 		// use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png
 		// use this->picto='pictovalue@module'
-		$this->picto = 'lead@lead'; // mypicto@lead
+		$this->picto = 'module.svg@lead'; // mypicto@lead
 		                            // Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		                            // for default path (eg: /lead/core/xxxxx) (0=disable, 1=enable)
 		                            // for specific path of parts (eg: /lead/core/modules/barcode)
@@ -110,6 +110,11 @@ class modLead extends DolibarrModules
 			'/lead',
 			'/lead/stats'
 		);
+
+
+		// Url to the file with your last numberversion of this module
+		require_once __DIR__ . '/../../class/techatm.class.php';
+		$this->url_last_version = \lead\TechATM::getLastModuleVersionUrl($this);
 
 		// Config pages. Put here list of php pages
 		// stored into lead/admin directory, used to setup module.
