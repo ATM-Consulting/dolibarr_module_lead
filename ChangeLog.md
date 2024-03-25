@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 
 ## Version 2.3
+- FIX : remove warning array in action file  - *25/03/2024* - 2.3.21  
 - FIX : change parameters order for implode function (deprecated since PHP 7.4) - *08/11/2023* - 2.3.20
 - FIX : protected field to public field in lead.class - *19/05/2023* - 2.3.19
 - FIX : Fix box display with access control - *05/06/2023* - 2.3.18
