@@ -65,7 +65,9 @@ class modLead extends DolibarrModules
 		$this->description = "Description of module Lead";
 		// Possible values for version are: 'development', 'experimental' or version
 
-		$this->version = '2.3.21';
+
+		$this->version = '2.5.0';
+
 
 		// Key used in llx_const table to save module status enabled/disabled
 		// (where MYMODULE is value of property name of module in uppercase)
@@ -78,7 +80,7 @@ class modLead extends DolibarrModules
 		// use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png
 		// use this->picto='pictovalue@module'
-		$this->picto = 'lead@lead'; // mypicto@lead
+		$this->picto = 'module.svg@lead'; // mypicto@lead
 		                            // Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		                            // for default path (eg: /lead/core/xxxxx) (0=disable, 1=enable)
 		                            // for specific path of parts (eg: /lead/core/modules/barcode)
@@ -111,6 +113,11 @@ class modLead extends DolibarrModules
 			'/lead/stats'
 		);
 
+
+		// Url to the file with your last numberversion of this module
+		require_once __DIR__ . '/../../class/techatm.class.php';
+		$this->url_last_version = \lead\TechATM::getLastModuleVersionUrl($this);
+
 		// Config pages. Put here list of php pages
 		// stored into lead/admin directory, used to setup module.
 		$this->config_page_url = array(
@@ -124,12 +131,12 @@ class modLead extends DolibarrModules
 		$this->requiredby = array();
 		// Minimum version of PHP required by module
 		$this->phpmin = array(
-			5,
-			3
+			7,
+			0
 		);
 		// Minimum version of Dolibarr required by module
 		$this->need_dolibarr_version = array(
-			5,
+			15,
 			0
 		);
 		$this->langfiles = array(
@@ -199,7 +206,7 @@ class modLead extends DolibarrModules
 		// Array to add new pages in new tabs
 		// Example:
 		$this->tabs = array(
-			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->rights->lead->read && ($object->client > 0 || $soc->client > 0):/lead/lead/list.php?socid=__ID__',
+			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read") && ($object->client > 0 || $soc->client > 0):/lead/lead/list.php?socid=__ID__',
 			//'invoice:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_invoiceid=__ID__',
 			//'propal:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_propalid=__ID__',
 		// // To add a new tab identified by code tabname1
@@ -331,8 +338,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/index.php',
 			'langs' => 'lead@lead',
 			'position' => 100,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);
@@ -346,8 +353,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/list.php',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);
@@ -360,8 +367,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/card.php?action=create',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->write',
-			'perms' => '$user->rights->lead->write',
+			'enabled' => '$user->hasRight("lead", "write")',
+			'perms' => '$user->hasRight("lead", "write")',
 			'target' => '',
 			'user' => 0
 		);
@@ -374,8 +381,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/list.php',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);
@@ -388,8 +395,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/list.php?viewtype=current',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);
@@ -402,8 +409,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/list.php?viewtype=my',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);
@@ -416,8 +423,8 @@ class modLead extends DolibarrModules
 			'url' => '/lead/lead/list.php?viewtype=late',
 			'langs' => 'lead@lead',
 			'position' => 100+$r,
-			'enabled' => '$user->rights->lead->read',
-			'perms' => '$user->rights->lead->read',
+			'enabled' => '$user->hasRight("lead", "read")',
+			'perms' => '$user->hasRight("lead", "read")',
 			'target' => '',
 			'user' => 0
 		);

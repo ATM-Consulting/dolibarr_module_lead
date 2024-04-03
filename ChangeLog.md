@@ -1,9 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+### Unreleased
 
-## Version 2.3
+
+
+## Release 2.5
+
+- NEW : TechATM + PAge About + logo - *17/01/2024* - 2.5.0
+- NEW : Compat v19 - *12/12/2023* - 2.4.0
+  Change dolibarr compatibility 15 min  - 19 max
+
+## Release 2.3
+
+
 - FIX : remove warning array in action file  - *25/03/2024* - 2.3.21  
+
 - FIX : change parameters order for implode function (deprecated since PHP 7.4) - *08/11/2023* - 2.3.20
 - FIX : protected field to public field in lead.class - *19/05/2023* - 2.3.19
 - FIX : Fix box display with access control - *05/06/2023* - 2.3.18

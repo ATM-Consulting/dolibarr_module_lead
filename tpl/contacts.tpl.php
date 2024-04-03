@@ -58,7 +58,7 @@ $userstatic = new User($db);
 			name="action" value="addcontact" /> <input type="hidden"
 			name="source" value="internal" />
 		<div class="nowrap tagtd"><?php echo img_object('','user').' '.$langs->trans("Users"); ?></div>
-		<div class="tagtd"><?php echo $conf->global->MAIN_INFO_SOCIETE_NOM; ?></div>
+		<div class="tagtd"><?php echo getDolGlobalString('MAIN_INFO_SOCIETE_NOM'); ?></div>
 		<div class="tagtd maxwidthonsmartphone"><?php echo $form->select_dolusers($user->id, 'userid', 0, (! empty($userAlreadySelected)?$userAlreadySelected:null), 0, null, null, 0, 56); ?></div>
 		<div class="tagtd maxwidthonsmartphone"><?php echo $formcompany->selectTypeContact($object, '', 'type','internal'); ?></div>
 		<div class="tagtd">&nbsp;</div>
@@ -79,7 +79,7 @@ $userstatic = new User($db);
 			name="action" value="addcontact" /> <input type="hidden"
 			name="source" value="external" />
 		<div class="tagtd nowrap"><?php echo img_object('','contact').' '.$langs->trans("ThirdPartyContacts"); ?></div>
-		<?php if ($conf->use_javascript_ajax && ! empty($conf->global->COMPANY_USE_SEARCH_TO_SELECT)) { ?>
+		<?php if ($conf->use_javascript_ajax && getDolGlobalString('COMPANY_USE_SEARCH_TO_SELECT')) { ?>
 		<div class="tagtd nowrap maxwidthonsmartphone">
 			<?php
 		$events = array();
@@ -155,7 +155,7 @@ $userstatic = new User($db);
 				echo $companystatic->getNomUrl(1);
 			}
 			if ($tab[$i]['socid'] < 0) {
-				echo $conf->global->MAIN_INFO_SOCIETE_NOM;
+				echo getDolGlobalString('MAIN_INFO_SOCIETE_NOM');
 			}
 			if (! $tab[$i]['socid']) {
 				echo '&nbsp;';

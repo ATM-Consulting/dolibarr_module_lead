@@ -164,16 +164,16 @@ llxHeader('', $langs->trans($page_name));
 
 // Subheader
 $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">' . $langs->trans("BackToModuleList") . '</a>';
-print_fiche_titre($langs->trans($page_name), $linkback);
+print load_fiche_titre($langs->trans($page_name), $linkback, "tools");
 
 // Configuration header
 $head = leadAdminPrepareHead();
-dol_fiche_head($head, 'settings', $langs->trans("Module103111Name"), 0, "lead@lead");
+print dol_get_fiche_head($head, 'settings', $langs->trans("Module103111Name"), -1, "tools");
 
 /*
  * Module numerotation
  */
-print_fiche_titre($langs->trans("LeadSetupPage"));
+print load_fiche_titre($langs->trans("LeadSetupPage"), '',"tools");
 
 $dirmodels = array_merge(array(
 		'/'
@@ -212,9 +212,9 @@ foreach ( $dirmodels as $reldir ) {
 					$module = new $file();
 
 					// Show modules according to features level
-					if ($module->version == 'development' && $conf->global->MAIN_FEATURES_LEVEL < 2)
+					if ($module->version == 'development' && getDolGlobalInt('MAIN_FEATURES_LEVEL') < 2)
 						continue;
-					if ($module->version == 'experimental' && $conf->global->MAIN_FEATURES_LEVEL < 1)
+					if ($module->version == 'experimental' && getDolGlobalInt('MAIN_FEATURES_LEVEL') < 1)
 						continue;
 
 					if ($module->isEnabled()) {
@@ -235,7 +235,7 @@ foreach ( $dirmodels as $reldir ) {
 						print '</td>' . "\n";
 
 						print '<td align="center">';
-						if ($conf->global->LEAD_ADDON == "$file") {
+						if (getDolGlobalString('LEAD_ADDON') == "$file") {
 							print img_picto($langs->trans("Activated"), 'switch_on');
 						} else {
 							print '<a href="' . $_SERVER["PHP_SELF"] . '?action=setmod&amp;value=' . $file . '">';
@@ -276,7 +276,7 @@ foreach ( $dirmodels as $reldir ) {
 print "</table><br>\n";
 
 // Admin var of module
-print_fiche_titre($langs->trans("LeadAdmVar"));
+print load_fiche_titre($langs->trans("LeadAdmVar"), '',"tools");
 
 print '<form method="post" action="' . $_SERVER['PHP_SELF'] . '" >';
 print '<input type="hidden" name="token" value="'.(function_exists('newToken')?newToken():$_SESSION['newtoken']).'">';
@@ -292,19 +292,19 @@ print "</tr>\n";
 // Nb Days
 print '<tr class="pair"><td>' . $langs->trans("LeadNbDayDefaultClosure") . '</td>';
 print '<td align="left">';
-print '<input type="text" name="LEAD_NB_DAY_COSURE_AUTO" value="' . $conf->global->LEAD_NB_DAY_COSURE_AUTO . '" size="4" ></td>';
+print '<input type="text" name="LEAD_NB_DAY_COSURE_AUTO" value="' . getDolGlobalString('LEAD_NB_DAY_COSURE_AUTO') . '" size="4" ></td>';
 print '</tr>';
 
 // template
 print '<tr class="impair"><td>Chemin du template personnel</td>';
 print '<td align="left">';
-print '<input type="text" name="LEAD_PERSONNAL_TEMPLATE" value="' . $conf->global->LEAD_PERSONNAL_TEMPLATE . '" size="30" ></td>';
+print '<input type="text" name="LEAD_PERSONNAL_TEMPLATE" value="' . getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') . '" size="30" ></td>';
 print '</tr>';
 
 // User Group
 print '<tr class="pair"><td>' . $langs->trans("LeadUserGroupAffect") . '</td>';
 print '<td align="left">';
-print $form->select_dolgroups($conf->global->LEAD_GRP_USER_AFFECT, 'LEAD_GRP_USER_AFFECT', 1, array(), 0, '', '', $conf->entity);
+print $form->select_dolgroups(getDolGlobalInt('LEAD_GRP_USER_AFFECT'), 'LEAD_GRP_USER_AFFECT', 1, array(), 0, '', '', $conf->entity);
 print '</tr>';
 
 // Force use thirdparty
@@ -314,7 +314,7 @@ $arrval = array(
 		'0' => $langs->trans("No"),
 		'1' => $langs->trans("Yes")
 );
-print $form->selectarray("LEAD_FORCE_USE_THIRDPARTY", $arrval, $conf->global->LEAD_FORCE_USE_THIRDPARTY);
+print $form->selectarray("LEAD_FORCE_USE_THIRDPARTY", $arrval, getDolGlobalInt('LEAD_FORCE_USE_THIRDPARTY'));
 print '</tr>';
 
 // Allow multiple lead on contract
@@ -324,16 +324,16 @@ $arrval = array(
 		'0' => $langs->trans("No"),
 		'1' => $langs->trans("Yes")
 );
-print $form->selectarray("LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT", $arrval, $conf->global->LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT);
+print $form->selectarray("LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT", $arrval, getDolGlobalInt('LEAD_ALLOW_MULIPLE_LEAD_ON_CONTRACT'));
 print '</tr>';
 
-if (! empty($conf->global->AGENDA_USE_EVENT_TYPE)) {
+if (getDolGlobalString('AGENDA_USE_EVENT_TYPE')) {
 
 	print '<tr class="impair"><td>' . $langs->trans("LeadTypeRelance") . '</td>';
 	print '<td align="left">';
 	dol_include_once('/core/class/html.formactions.class.php');
 	$formactions = new FormActions($db);
-	$formactions->select_type_actions($conf->global->LEAD_EVENT_RELANCE_TYPE, "LEAD_EVENT_RELANCE_TYPE", "systemauto", 0, - 1);
+	$formactions->select_type_actions(getDolGlobalInt('LEAD_EVENT_RELANCE_TYPE'), "LEAD_EVENT_RELANCE_TYPE", "systemauto", 0, - 1);
 	print '</tr>';
 }
 
@@ -345,7 +345,7 @@ print '</tr>';
 print '</table><br>';
 print '</form>';
 
-dol_fiche_end();
+print dol_get_fiche_end(-1);
 
 llxFooter();
 

@@ -74,12 +74,12 @@ $textobject = $langs->transnoentitiesnoconv("Module103111Name");
 llxHeader('', $langs->trans("LeadSetup"));
 
 $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">' . $langs->trans("BackToModuleList") . '</a>';
-print_fiche_titre($langs->trans("LeadSetup"), $linkback, 'setup');
+print load_fiche_titre($langs->trans("LeadSetup"), $linkback, 'tools');
 print "<br>\n";
 
 // Configuration header
 $head = leadAdminPrepareHead();
-dol_fiche_head($head, 'attributes', $langs->trans("Module103111Name"), 0, "lead@lead");
+print dol_get_fiche_head($head, 'attributes', $langs->trans("Module103111Name"), -1, "lead@lead");
 
 print $langs->trans("DefineHereComplementaryAttributes", $langs->transnoentitiesnoconv("Module103111Name")) . '<br>' . "\n";
 print '<br>';
@@ -100,26 +100,27 @@ print '<td width="80">&nbsp;</td>';
 print "</tr>\n";
 
 $var = True;
-
-$TExtrafieldsTypes = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attributes['lead']['type'];
-
-foreach ($TExtrafieldsTypes as $key => $value) {
-	$var = ! $var;
-	print "<tr " . $bc[$var] . ">";
-	print "<td>" . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attributes['lead']['label'][$key]). "</td>\n";
-	print "<td>" . $key . "</td>\n";
-	print "<td>" . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attributes['lead']['type'][$key]) . "</td>\n";
-	print '<td align="right">' . (version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attributes['lead']['size'][$key]) . "</td>\n";
-	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attributes['lead']['unique'][$key]) . "</td>\n";
-	print '<td align="center">' . yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attributes['lead']['required'][$key]) . "</td>\n";
-	print '<td align="right"><a href="' . $_SERVER["PHP_SELF"] . '?action=edit&attrname=' . $key . '">' . img_edit() . '</a>';
-	print "&nbsp; <a href=\"" . $_SERVER["PHP_SELF"] . "?action=delete&attrname=$key\">" . img_delete() . "</a></td>\n";
-	print "</tr>";
+if(version_compare(DOL_VERSION, 17, '<') > 0) $TExtrafieldsTypes = $extrafields->attribute_type;
+else if(!empty($extrafields->attributes['lead']['type'])) $TExtrafieldsTypes = $extrafields->attributes['lead']['type'];
+if(!empty($TExtrafieldsTypes)) {
+	foreach($TExtrafieldsTypes as $key => $value) {
+		$var = ! $var;
+		print "<tr ".$bc[$var].">";
+		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attributes['lead']['label'][$key])."</td>\n";
+		print "<td>".$key."</td>\n";
+		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attributes['lead']['type'][$key])."</td>\n";
+		print '<td align="right">'.(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attributes['lead']['size'][$key])."</td>\n";
+		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attributes['lead']['unique'][$key])."</td>\n";
+		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attributes['lead']['required'][$key])."</td>\n";
+		print '<td align="right"><a href="'.$_SERVER["PHP_SELF"].'?action=edit&attrname='.$key.'">'.img_edit().'</a>';
+		print "&nbsp; <a href=\"".$_SERVER["PHP_SELF"]."?action=delete&attrname=$key\">".img_delete()."</a></td>\n";
+		print "</tr>";
+	}
 }
 
 print "</table>";
 
-dol_fiche_end();
+print dol_get_fiche_end(-1);
 
 // Buttons
 if ($action != 'create' && $action != 'edit') {
@@ -136,7 +137,7 @@ if ($action != 'create' && $action != 'edit') {
 
 if ($action == 'create') {
 	print "<br>";
-	print_fiche_titre($langs->trans('NewAttribute'));
+	print load_fiche_titre($langs->trans('NewAttribute'));
 	
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_add.tpl.php';
 }
@@ -148,7 +149,7 @@ if ($action == 'create') {
 /* ************************************************************************** */
 if ($action == 'edit' && ! empty($attrname)) {
 	print "<br>";
-	print_fiche_titre($langs->trans("FieldEdition", $attrname));
+	print load_fiche_titre($langs->trans("FieldEdition", $attrname));
 	
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_edit.tpl.php';
 }

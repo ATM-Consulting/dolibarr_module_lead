@@ -28,7 +28,7 @@ require_once 'lib/lead.lib.php';
 require_once './class/leadstats.class.php';
 
 // Security check
-if (! $user->rights->lead->read)
+if (! $user->hasRight('lead', 'read'))
 	accessforbidden();
 
 
@@ -55,10 +55,10 @@ $showpointvalue=1;
 $nocolor=0;
 
 $includeuserlist=array();
-if (!empty($conf->global->LEAD_GRP_USER_AFFECT)) {
+if (getDolGlobalInt('LEAD_GRP_USER_AFFECT')) {
 	dol_include_once('/user/class/usergroup.class.php');
 	$usergroup=new UserGroup($db);
-	$result=$usergroup->fetch($conf->global->LEAD_GRP_USER_AFFECT);
+	$result=$usergroup->fetch(getDolGlobalInt('LEAD_GRP_USER_AFFECT'));
 	if ($result < 0)
 		setEventMessage($usergroup->error, 'errors');
 
@@ -107,7 +107,7 @@ $px = new DolGraph();
 $mesg = $px->isGraphKo();
 if (empty($mesg)) {
 	$i=0;$tot=count($data1);$legend=array();
-	while ($i <= $tot)
+	while ($i < $tot)
 	{
 		$data1[$i][0]=$data1[$i][0];	// Required to avoid error "Could not draw pie with labels contained inside canvas"
 		$legend[]=$data1[$i][0];
@@ -177,7 +177,7 @@ $mesg = $px->isGraphKo();
 
 if (empty($mesg)) {
 	$i=0;$tot=count($data1);$legend=array();
-	while ($i <= $tot)
+	while ($i < $tot)
 	{
 		$data1[$i][0]=$data1[$i][0];	// Required to avoid error "Could not draw pie with labels contained inside canvas"
 		$legend[]=$data1[$i][0];

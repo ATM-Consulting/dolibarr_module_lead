@@ -63,7 +63,7 @@ class mod_lead_universal extends ModeleNumRefLead
 
 		// Parametrage du prefix
 		$texte .= '<tr><td>' . $langs->trans("Mask") . ':</td>';
-		$texte .= '<td align="right">' . $form->textwithpicto('<input type="text" class="flat" size="24" name="masklead" value="' . $conf->global->LEAD_UNIVERSAL_MASK . '">', $tooltip, 1, 1) . '</td>';
+		$texte .= '<td align="right">' . $form->textwithpicto('<input type="text" class="flat" size="24" name="masklead" value="' . getDolGlobalString('LEAD_UNIVERSAL_MASK') . '">', $tooltip, 1, 1) . '</td>';
 
 		$texte .= '<td align="left" rowspan="2">&nbsp; <input type="submit" class="button" value="' . $langs->trans("Modify") . '" name="Button"></td>';
 
@@ -110,7 +110,7 @@ class mod_lead_universal extends ModeleNumRefLead
 		require_once DOL_DOCUMENT_ROOT . '/core/lib/functions2.lib.php';
 
 		// On defini critere recherche compteur
-		$mask = $conf->global->LEAD_UNIVERSAL_MASK;
+		$mask = getDolGlobalString('LEAD_UNIVERSAL_MASK');
 
 		if (! $mask) {
 			$this->error = 'NotConfigured';
