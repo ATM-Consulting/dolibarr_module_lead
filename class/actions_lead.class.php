@@ -296,7 +296,7 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 					$obj->fetchObjectLinked();
 
 
-					if (count($obj->linkedObjectsIds['lead']) == 1) {
+					if (is_array($obj->linkedObjectsIds) && array_key_exists('lead',$obj->linkedObjectsIds) && count($obj->linkedObjectsIds['lead']) == 1) {
 						$leadId = array_pop($obj->linkedObjectsIds['lead']);
 						$lead = new Lead($db);
 						$result = $lead->fetch($leadId);
