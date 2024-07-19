@@ -35,7 +35,7 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/html.formother.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 require_once DOL_DOCUMENT_ROOT . '/comm/propal/class/propal.class.php';
 require_once DOL_DOCUMENT_ROOT . '/compta/facture/class/facture.class.php';
-if ($conf->margin->enabled) {
+if (isModEnabled('margin')) {
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formmargin.class.php';
 }
 
@@ -45,7 +45,7 @@ $form = new Form($db);
 $formlead = new FormLead($db);
 $object = new Lead($db);
 $formother = new FormOther($db);
-if (! empty($conf->margin->enabled)) {
+if (isModEnabled('margin')) {
 	$formmargin = new FormMargin($db);
 	$rounding = min(getDolGlobalInt('MAIN_MAX_DECIMALS_UNIT'), getDolGlobalInt('MAIN_MAX_DECIMALS_TOT'));
 }
@@ -204,7 +204,7 @@ $arrayfields = array(
 		),
 );
 
-if (! empty($conf->margin->enabled)){
+if (isModEnabled('margin')){
 	$arrayfields['margin'] = array('label'=>$langs->trans("Margin"), 'checked'=>0);
 	$arrayfields['markRate'] = array('label'=>$langs->trans("MarkRate"), 'checked'=>0);
 }
@@ -332,7 +332,7 @@ if ($resql != - 1) {
 	if (! empty($arrayfields['leadtype.label']['checked'])) print_liste_field_titre($langs->trans("LeadType"), $_SERVER['PHP_SELF'], "leadtype.label", "", $option, '', $sortfield, $sortorder);
 	if (! empty($arrayfields['t.amount_prosp']['checked'])) print_liste_field_titre($langs->trans("LeadAmountGuess"), $_SERVER['PHP_SELF'], "t.amount_prosp", "", $option, 'align="right"', $sortfield, $sortorder);
 	print_liste_field_titre($langs->trans("LeadRealAmount"), $_SERVER['PHP_SELF'], "", "", $option, 'align="right"', $sortfield, $sortorder);
-	if (! empty($conf->margin->enabled)) {
+	if (isModEnabled('margin')) {
 		if (!empty($arrayfields['margin']['checked'])) print_liste_field_titre($arrayfields['margin']['label'], $_SERVER["PHP_SELF"], "", "", "$option", 'align="center"', $sortfield, $sortorder);
 		if (!empty($arrayfields['markRate']['checked'])) print_liste_field_titre($arrayfields['markRate']['label'], $_SERVER["PHP_SELF"], "", "", "$option", 'align="center"', $sortfield, $sortorder);
 	}
@@ -460,7 +460,7 @@ if ($resql != - 1) {
 		 * @var Lead $line
 		 */
 
-		if (! empty($conf->margin->enabled)) {
+		if (isModEnabled('margin')) {
 			$propal = new Propal($db);
 			$lead = new Lead($db);
 			$lead->fetchDocumentLink($line->id, $object->listofreferent['propal']['table']);
@@ -558,7 +558,7 @@ if ($resql != - 1) {
 		print '<td  align="right" nowrap>' . price($amount) . ' ' . $langs->getCurrencySymbol($conf->currency) . '</td>';
 		$totalamountreal += $amount;
 
-		if (! empty($conf->margin->enabled)) {
+		if (isModEnabled('margin')) {
 			// Margin
 			if (!empty($arrayfields['margin']['checked'])) {
 				print '<td align="center" nowrap>' . price($marginInfos['total_margin']). $langs->getCurrencySymbol($conf->currency) . "</td>\n";
@@ -612,7 +612,7 @@ if ($resql != - 1) {
 	if (! empty($arrayfields['leadtype.label']['checked'])) print "<td class='liste_total'></td>";
 	if (! empty($arrayfields['t.amount_prosp']['checked'])) print "<td class='liste_total right'>".price($totalamountguess).' ' . $langs->getCurrencySymbol($conf->currency) ."</td>";
 	print "<td class='liste_total right'>".price($totalamountreal).' ' . $langs->getCurrencySymbol($conf->currency) ."</td>";
-	if (! empty($conf->margin->enabled)) {
+	if (isModEnabled('margin')) {
 		if (!empty($arrayfields['margin']['checked'])) {
 			print "<td class='liste_total'>". price($marginInfos['total_margin']). $langs->getCurrencySymbol($conf->currency)."</td>";
 		}
@@ -642,7 +642,7 @@ if ($resql != - 1) {
 	print '$(document).ready(function() {
 					$("#totalamountguess").append("' . price($totalamountguess) . $langs->getCurrencySymbol($conf->currency) . '");
 					$("#totalamountreal").append("' . price($totalamountreal) . $langs->getCurrencySymbol($conf->currency) . '");';
-	if (! empty($conf->margin->enabled)) {
+	if (isModEnabled('margin')) {
 		print '$("#totalmargin").append("' . price($totalmargin) . $langs->getCurrencySymbol($conf->currency) . '");';
 	}
 	print '});';

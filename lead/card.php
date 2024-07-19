@@ -27,16 +27,16 @@ require_once '../lib/lead.lib.php';
 require_once DOL_DOCUMENT_ROOT . '/core/lib/date.lib.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
-if (! empty($conf->propal->enabled))
+if (isModEnabled('propal'))
 	require_once DOL_DOCUMENT_ROOT . '/comm/propal/class/propal.class.php';
-if (! empty($conf->facture->enabled))
+if (isModEnabled('facture'))
 	require_once DOL_DOCUMENT_ROOT . '/compta/facture/class/facture.class.php';
-if (! empty($conf->contrat->enabled))
+if (isModEnabled('contrat'))
 	require_once DOL_DOCUMENT_ROOT . '/contrat/class/contrat.class.php';
-if (! empty($conf->commande->enabled))
+if (isModEnabled('commande'))
 	require_once DOL_DOCUMENT_ROOT . '/commande/class/commande.class.php';
 
-if (! empty($conf->agenda->enabled))
+if (isModEnabled('agenda'))
 	dol_include_once('/comm/action/class/actioncomm.class.php');
 
 if (getDolGlobalString('LEAD_GRP_USER_AFFECT'))
@@ -49,13 +49,13 @@ if (! $user->hasRight('lead', 'read'))
 if (function_exists('newToken')) $urlToken = "&token=".newToken();
 
 $langs->load('lead@lead');
-if (! empty($conf->propal->enabled))
+if (isModEnabled('propal'))
 	$langs->load('propal');
-if (! empty($conf->facture->enabled))
+if (isModEnabled('facture'))
 	$langs->load('bills');
-if (! empty($conf->contrat->enabled))
+if (isModEnabled('contrat'))
 	$langs->load('contracts');
-if (! empty($conf->commande->enabled))
+if (isModEnabled('commande'))
 	$langs->load('order');
 $action = GETPOST('action', 'alpha');
 
@@ -854,12 +854,12 @@ elseif ($action == 'edit') {
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=edit'.$urlToken.'">' . $langs->trans("Edit") . "</a></div>\n";
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone'.$urlToken.'">' . $langs->trans("Clone") . "</a></div>\n";
 
-		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->hasRight('propale', 'lire') : $conf->propal->enabled && $user->hasRight('propal', 'lire');
+		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? isModEnabled('propal') && $user->hasRight('propale', 'lire') : isModEnabled('propal') && $user->hasRight('propal', 'lire');
 		if ($propalPerms) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_propale'.$urlToken.'">' . $langs->trans("LeadCreatePropale") . "</a></div>\n";
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone_propale'.$urlToken.'">' . $langs->trans("LeadClonePropale") . "</a></div>\n";
 		}
-		if ($conf->contract->enabled && $user->hasRight('contrat', 'creer')) {
+		if (isModEnabled('contract') && $user->hasRight('contrat', 'creer')) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_contract'.$urlToken.'">' . $langs->trans("LeadCreateContract") . "</a></div>\n";
 		}
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_relance'.$urlToken.'">' . $langs->trans("CreateRelance") . "</a></div>\n";
