@@ -29,11 +29,11 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
 if (isModEnabled('propal'))
 	require_once DOL_DOCUMENT_ROOT . '/comm/propal/class/propal.class.php';
-if (isModEnabled('facture'))
+if (isModEnabled('invoice'))
 	require_once DOL_DOCUMENT_ROOT . '/compta/facture/class/facture.class.php';
-if (isModEnabled('contrat'))
+if (isModEnabled('contract'))
 	require_once DOL_DOCUMENT_ROOT . '/contrat/class/contrat.class.php';
-if (isModEnabled('commande'))
+if (isModEnabled('order'))
 	require_once DOL_DOCUMENT_ROOT . '/commande/class/commande.class.php';
 
 if (isModEnabled('agenda'))
@@ -51,11 +51,11 @@ if (function_exists('newToken')) $urlToken = "&token=".newToken();
 $langs->load('lead@lead');
 if (isModEnabled('propal'))
 	$langs->load('propal');
-if (isModEnabled('facture'))
+if (isModEnabled('invoice'))
 	$langs->load('bills');
-if (isModEnabled('contrat'))
+if (isModEnabled('contract'))
 	$langs->load('contracts');
-if (isModEnabled('commande'))
+if (isModEnabled('order'))
 	$langs->load('order');
 $action = GETPOST('action', 'alpha');
 

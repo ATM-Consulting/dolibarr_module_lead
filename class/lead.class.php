@@ -94,28 +94,28 @@ class Lead extends CommonObject
 					'test' => $propalPerms
 			);
 		}
-		if (isModEnabled('facture')) {
+		if (isModEnabled('invoice')) {
 			$this->listofreferent['invoice'] = array (
 					'title' => "Bill",
 					'class' => 'Facture',
 					'table' => 'facture',
-					'test' => isModEnabled('facture') && $user->hasRight('facture', 'lire')
+					'test' => isModEnabled('invoice') && $user->hasRight('facture', 'lire')
 			);
 		}
-		if (isModEnabled('contrat')) {
+		if (isModEnabled('contract')) {
 			$this->listofreferent['contract'] = array (
 					'title' => "Contrat",
 					'class' => 'Contrat',
 					'table' => 'contrat',
-					'test' => isModEnabled('contrat') && $user->hasRight('contrat', 'lire')
+					'test' => isModEnabled('contract') && $user->hasRight('contrat', 'lire')
 			);
 		}
-		if (isModEnabled('commande')) {
+		if (isModEnabled('order')) {
 			$this->listofreferent['orders'] = array (
 					'title' => "Commande",
 					'class' => 'Commande',
 					'table' => 'commande',
-					'test' => isModEnabled('commande') && $user->hasRight('commande', 'lire')
+					'test' => isModEnabled('order') && $user->hasRight('commande', 'lire')
 			);
 		}
 

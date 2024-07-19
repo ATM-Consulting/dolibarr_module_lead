@@ -80,7 +80,7 @@ if ($search_type == - 1)
 $search_status = GETPOST('search_status','alpha');
 if ($search_status == - 1)
 	$search_status = 0;
-$search_month = GETPOST('search_month', 'aplha');
+$search_month = GETPOST('search_month', 'alpha');
 $search_year = GETPOST('search_year', 'int');
 $search_invoiceid = GETPOST('search_invoiceid', 'int');
 $search_invoiceref = GETPOST('search_invoiceref', 'alpha');
