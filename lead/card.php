@@ -495,7 +495,7 @@ if ($action == 'create' && $user->hasRight('lead', 'write')) {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields, 'edit');
 		}
@@ -607,7 +607,7 @@ elseif ($action == 'edit') {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields, 'edit');
 		}
@@ -836,7 +836,7 @@ elseif ($action == 'edit') {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields);
 		}

@@ -210,7 +210,7 @@ if (isModEnabled('margin')){
 }
 
 // Extra fields
-$TExtrafieldsLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+$TExtrafieldsLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label']?? [];
 if (is_array($TExtrafieldsLabel) && count($TExtrafieldsLabel)) {
 	foreach ($TExtrafieldsLabel as $key => $val ) {
 		$typeofextrafield=$TExtrafieldsLabel[$key];
@@ -339,7 +339,7 @@ if ($resql != - 1) {
 	if (! empty($arrayfields['t.date_closure']['checked'])) print_liste_field_titre($langs->trans("LeadDeadLine"), $_SERVER['PHP_SELF'], "t.date_closure", "", $option, 'align="right"', $sortfield, $sortorder);
 
 	// Extra fields
-	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 	if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 	{
 		foreach($TExtrafieldsLabels as $key => $val)
@@ -416,7 +416,7 @@ if ($resql != - 1) {
 
 
 	// Extra fields
-	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+	$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label']?? [];
 	if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 	{
 		foreach($TExtrafieldsLabels as $key => $val)
@@ -577,7 +577,7 @@ if ($resql != - 1) {
 		}
 
 		// Extra fields
-		$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'];
+		$TExtrafieldsLabels = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label']?? [];
 		if (is_array($TExtrafieldsLabels) && count($TExtrafieldsLabels))
 		{
 			foreach($TExtrafieldsLabels as $key => $val)
