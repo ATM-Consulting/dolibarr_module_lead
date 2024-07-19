@@ -82,8 +82,8 @@ class Lead extends CommonObject
 			$result_type = 1;
 		}
 
-		if (! empty($conf->propal->enabled)) {
-			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? $conf->propal->enabled && $user->hasRight('propale', 'lire') : $conf->propal->enabled && $user->hasRight('propal', 'lire');
+		if (isModEnabled('propal')) {
+			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? isModEnabled('propal') && $user->hasRight('propale', 'lire') : isModEnabled('propal') && $user->hasRight('propal', 'lire');
 			$this->listofreferent['propal'] = array (
 					'title' => "Proposal",
 					'class' => 'Propal',
@@ -94,37 +94,37 @@ class Lead extends CommonObject
 					'test' => $propalPerms
 			);
 		}
-		if (! empty($conf->facture->enabled)) {
+		if (isModEnabled('invoice')) {
 			$this->listofreferent['invoice'] = array (
 					'title' => "Bill",
 					'class' => 'Facture',
 					'table' => 'facture',
-					'test' => $conf->facture->enabled && $user->hasRight('facture', 'lire')
+					'test' => isModEnabled('invoice') && $user->hasRight('facture', 'lire')
 			);
 		}
-		if (! empty($conf->contrat->enabled)) {
+		if (isModEnabled('contract')) {
 			$this->listofreferent['contract'] = array (
 					'title' => "Contrat",
 					'class' => 'Contrat',
 					'table' => 'contrat',
-					'test' => $conf->contrat->enabled && $user->hasRight('contrat', 'lire')
+					'test' => isModEnabled('contract') && $user->hasRight('contrat', 'lire')
 			);
 		}
-		if (! empty($conf->commande->enabled)) {
+		if (isModEnabled('order')) {
 			$this->listofreferent['orders'] = array (
 					'title' => "Commande",
 					'class' => 'Commande',
 					'table' => 'commande',
-					'test' => $conf->commande->enabled && $user->hasRight('commande', 'lire')
+					'test' => isModEnabled('order') && $user->hasRight('commande', 'lire')
 			);
 		}
 
-		if (! empty($conf->agenda->enabled)) {
+		if (isModEnabled('agenda')) {
 			$this->listofreferent['agenda'] = array (
 					'title' => "Event",
 					'class' => 'ActionComm',
 					'table' => 'actioncomm',
-					'test' => $conf->agenda->enabled && $user->hasRight('agenda', 'myactions', 'read')
+					'test' => isModEnabled('agenda') && $user->hasRight('agenda', 'myactions', 'read')
 					,'disableamount'=>true
 			);
 		}
@@ -1346,7 +1346,7 @@ class Lead extends CommonObject
 
 		$this->db->begin();
 
-		if (! empty($conf->propal->enabled)) {
+		if (isModEnabled('propal')) {
 			require_once DOL_DOCUMENT_ROOT . '/comm/propal/class/propal.class.php';
 
 			if (empty($error)) {
@@ -1416,7 +1416,7 @@ class Lead extends CommonObject
 
 		$this->db->begin();
 
-		if (! empty($conf->propal->enabled)) {
+		if (isModEnabled('propal')) {
 
 
 			require_once DOL_DOCUMENT_ROOT . '/comm/propal/class/propal.class.php';

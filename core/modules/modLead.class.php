@@ -66,7 +66,7 @@ class modLead extends DolibarrModules
 		// Possible values for version are: 'development', 'experimental' or version
 
 
-		$this->version = '2.5.0';
+		$this->version = '2.6.0';
 
 
 		// Key used in llx_const table to save module status enabled/disabled
@@ -136,7 +136,7 @@ class modLead extends DolibarrModules
 		);
 		// Minimum version of Dolibarr required by module
 		$this->need_dolibarr_version = array(
-			15,
+			16,
 			0
 		);
 		$this->langfiles = array(
@@ -210,9 +210,9 @@ class modLead extends DolibarrModules
 			//'invoice:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_invoiceid=__ID__',
 			//'propal:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_propalid=__ID__',
 		// // To add a new tab identified by code tabname1
-		// 'objecttype:+tabname1:Title1:langfile@lead:$user->rights->lead->read:/lead/mynewtab1.php?id=__ID__',
+		// 'objecttype:+tabname1:Title1:langfile@lead:$user->hasRight('lead', 'read'):/lead/mynewtab1.php?id=__ID__',
 		// // To add another new tab identified by code tabname2
-		// 'objecttype:+tabname2:Title2:langfile@lead:$user->rights->othermodule->read:/lead/mynewtab2.php?id=__ID__',
+		// 'objecttype:+tabname2:Title2:langfile@lead:$user->hasRight('othermodule', 'read'):/lead/mynewtab2.php?id=__ID__',
 		// // To remove an existing tab identified by code tabname
 		// 'objecttype:-tabname'
 				);
@@ -234,7 +234,7 @@ class modLead extends DolibarrModules
 		// 'categories_x' to add a tab in category view
 		// (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
 		// Dictionnaries
-		if (! isset($conf->lead->enabled)) {
+		if (! isModEnabled('lead')) {
 			$conf->lead = (object) array();
 			$conf->lead->enabled = 0;
 		}
@@ -279,8 +279,8 @@ class modLead extends DolibarrModules
 				"rowid"
 			),
 			'tabcond' => array(
-				'$conf->lead->enabled',
-				'$conf->lead->enabled'
+				'isModEnabled(\'lead\')',
+				'isModEnabled(\'lead\')'
 			)
 		);
 
