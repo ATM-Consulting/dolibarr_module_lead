@@ -101,7 +101,7 @@ class modLead extends DolibarrModules
 		// Set this to relative path of css if module has its own css file
 		// 'css' => '/lead/css/mycss.css.php',
 		// Set here all hooks context managed by module
-			'hooks' => array('commonobject','commcard','propalcard','contractcard','ordercard','searchform','invoicecard'),
+			'hooks' => array('commonobject','commcard','propalcard','contractcard','ordercard','searchform','invoicecard', 'thirdpartycard'),
 		// Set here all workflow context managed by module
 		// 'workflow' => array('order' => array('WORKFLOW_ORDER_AUTOCREATE_INVOICE'))
 				);
@@ -206,7 +206,8 @@ class modLead extends DolibarrModules
 		// Array to add new pages in new tabs
 		// Example:
 		$this->tabs = array(
-			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read") && ($object->client > 0 || $soc->client > 0):/lead/lead/list.php?socid=__ID__',
+			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read"):/lead/lead/list.php?socid=__ID__',
+//			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read") && ($object->client > 0 || $soc->client > 0):/lead/lead/list.php?socid=__ID__',
 			//'invoice:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_invoiceid=__ID__',
 			//'propal:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_propalid=__ID__',
 		// // To add a new tab identified by code tabname1
