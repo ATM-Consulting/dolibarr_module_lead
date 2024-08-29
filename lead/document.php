@@ -119,7 +119,12 @@ if ($id > 0 || ! empty($ref))
 
 		print '<table class="border" width="100%">';
 
-		$linkback = '<a href="'.dol_buildpath("/lead/lead/list.php", 1).'">'.$langs->trans("BackToList").'</a>';
+		if (is_object($object->thirdparty)){
+			$urlBackToList = dol_buildpath('/lead/lead/list.php?socid=' . $object->thirdparty->id, 1);
+		}else{
+			$urlBackToList = dol_buildpath('/lead/lead/list.php', 1);
+		}
+		$linkback = '<a href="' . $urlBackToList . '">' . $langs->trans("BackToList") . '</a>';
 
 		print '<tr>';
 		print '<td width="20%">';

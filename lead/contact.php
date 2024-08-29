@@ -130,8 +130,12 @@ if ($object->id > 0) {
 	 * Lead synthese pour rappel
 	 */
 	print '<table class="border" width="100%">';
-
-	$linkback = '<a href="list.php">' . $langs->trans("BackToList") . '</a>';
+	if (is_object($object->thirdparty)){
+		$urlBackToList = dol_buildpath('/lead/lead/list.php?socid=' . $object->thirdparty->id, 1);
+	}else{
+		$urlBackToList = dol_buildpath('/lead/lead/list.php', 1);
+	}
+	$linkback = '<a href="'.$urlBackToList.'">' . $langs->trans("BackToList") . '</a>';
 
 	// Ref
 	print '<tr><td width="25%">' . $langs->trans('Ref') . '</td><td colspan="3">';
