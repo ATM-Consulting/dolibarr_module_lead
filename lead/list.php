@@ -271,11 +271,15 @@ if (!empty($socid)) {
 	$soc->fetch($socid);
 	$head = societe_prepare_head($soc);
 	$nbtotalofrecords = $object->fetchAll('', '', 0, 0, $filter);
-//var_dump($object);
-	print dol_get_fiche_head($head, 'tabLead', $langs->trans("Module103111Name") . $nbtotalofrecords,1,dol_buildpath('/lead/img/object_lead.png', 1),1);
-	dol_banner_tab($soc, 'id');
+
+	print dol_get_fiche_head($head, 'tabLead', $langs->trans("Module103111Name") . $nbtotalofrecords,1, $soc->picto);
+	$linkback = '<a href="'.DOL_URL_ROOT.'/societe/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+	$morehtmlref = '';
+
+	dol_banner_tab($soc, 'socid', $linkback, ($user->socid ? 0 : 1), 'rowid', 'nom', $morehtmlref, '', 0, '', '', 'tabBar');
 }
 
+// Count total nb of records
 // Count total nb of records
 $nbtotalofrecords = 0;
 
@@ -603,7 +607,9 @@ if ($resql != - 1) {
 			if (! $i) $totalarray['nbfield']++;
 		}
 		print '<td align="center"><a href="card.php?id=' . $line->id . '&action=edit'.$urlToken.'">' . img_picto($langs->trans('Edit'), 'edit') . '</td>';
-		print '<td align="center"><a href="card.php?id=' . $line->id . '&fromList=1&action=delete'.$urlToken.'">' . img_picto($langs->trans('delete'), 'delete') . '</td>';
+		if ($user->hasRight('lead', 'delete')) {
+			print '<td align="center"><a href="card.php?id=' . $line->id . '&fromList=1&action=delete'.$urlToken.'">' . img_picto($langs->trans('delete'), 'delete') . '</td>';
+		}else print '<td></td>';
 
 		print "</tr>\n";
 
