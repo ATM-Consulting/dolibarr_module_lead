@@ -127,6 +127,7 @@ LeadCreateContract=Créer un contrat
 LeadConfirmCreateContract=Confirmer la création d'un contrat
 LeadWin=Affaire gagnée
 LeadConfirmWin=Les proposition commerciales selectionnées à cette affaire seront mises au statut « Signées ».
+anoughPermissions = Pas de permission
 
 #
 # Export
@@ -171,4 +172,6 @@ LeadTypeRelance=Type de l'évènement relance
 LeadDateRelance=Date de relance
 leadRelanceEvent=Relance sur une affaire %s
 ImpossibleToCreateEventLead=Impossible de créer l'évènement de relance
+
+
 

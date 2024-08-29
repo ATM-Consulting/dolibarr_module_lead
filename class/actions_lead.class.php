@@ -312,4 +312,33 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 		}
 	}
 
+	/**
+	 * count tab incident
+	 *
+	 * @param   array           $parameters     Array of parameters
+	 * @param   CommonObject    $object         The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
+	 * @param   string          $action         'add', 'update', 'view'
+	 * @param   Hookmanager     $hookmanager    hookmanager
+	 * @return  int                             Return integer <0 if KO,
+	 *                                          =0 if OK but we want to process standard actions too,
+	 *                                          >0 if OK and we want to replace standard actions.
+	 */
+	public function completeTabsHead(&$parameters, $object, &$action, $hookmanager)
+	{
+		global $langs, $db;
+		if (in_array('thirdpartydao', explode(':',$parameters['context']))){
+			require_once __DIR__.'/lead.class.php';
+			$lead = new Lead($db);
+			foreach ($parameters['head'] as $h => &$headV) if(!empty($headV) && $headV[1] == $langs->trans("Module103111Name")){
+				$nbtotalofrecords = $lead->fetchAll('', '', 0, 0,  array('so.rowid' => $object->id));
+				if ($nbtotalofrecords > 0) {
+					$headV[1] = $headV[1]  . ' <span class="badge">' . $nbtotalofrecords . '</span>';
+				}
+			}
+			$this->results = $parameters['head'];
+			return 1;
+		}
+		return 0;
+	}
+
 }

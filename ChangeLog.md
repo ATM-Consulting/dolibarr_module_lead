@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## Release 2.6
 
+- FIX : Refonte onglet Affaires DA025406 - *29/08/2024* - 2.6.1
 - NEW : Compat v20 - *19/07/2024* - 2.6.0
 
 ## Release 2.5

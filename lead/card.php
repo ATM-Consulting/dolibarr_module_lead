@@ -62,6 +62,7 @@ $action = GETPOST('action', 'alpha');
 $id = GETPOST('id', 'int');
 
 $confirm = GETPOST('confirm', 'alpha');
+$fromList = GETPOST('fromList', 'alpha');
 
 $ref_int = GETPOST('ref_int', 'alpha');
 $socid = GETPOST('socid', 'int');
@@ -192,13 +193,16 @@ if ($action == "add") {
 	} else {
 		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $object->id);
 	}
-} elseif ($action == 'confirm_delete' && $confirm == 'yes' && $user->hasRight('lead', 'delete')) {
+} elseif (($action == 'confirm_delete' ||$action == 'confirm_delete_from_list')&& $confirm == 'yes' && $user->hasRight('lead', 'delete')) {
 	$result = $object->delete($user);
 	if ($result < 0) {
 		setEventMessages(null, $object->errors, 'errors');
-	} else {
+	} elseif ($action == 'confirm_delete'){
 		header('Location:' . dol_buildpath('/lead/lead/list.php', 1));
+	}elseif ($action == 'confirm_delete_from_list'){
+		header('Location:' . dol_buildpath('/lead/lead/list.php?socid='. $object->thirdparty->id, 1));
 	}
+
 } elseif ($action == "addelement") {
 	$tablename = GETPOST("tablename",'alpha');
 	$elementselectid = GETPOST("elementselect",'int');
@@ -631,8 +635,10 @@ elseif ($action == 'edit') {
 	// Confirm form
 	$formconfirm = '';
 
-	if ($action == 'delete') {
+	if ($action == 'delete' && !$fromList) {
 		$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id, $langs->trans('LeadDelete'), $langs->trans('LeadConfirmDelete'), 'confirm_delete', '', 0, 1);
+	}elseif($fromList) {
+		$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"] . '?id=' . $object->id, $langs->trans('LeadDelete'), $langs->trans('LeadConfirmDelete'), 'confirm_delete_from_list', '', 0, 1);
 	}
 
 	if ($action == 'close') {
@@ -727,7 +733,13 @@ elseif ($action == 'edit') {
 	} else {
 		$printformconfirm = true;
 	}
-	$linkback = '<a href="' . dol_buildpath('/lead/lead/list.php', 1) . '">' . $langs->trans("BackToList") . '</a>';
+
+	if (is_object($object->thirdparty)){
+		$urlBackToList = dol_buildpath('/lead/lead/list.php?socid=' . $object->thirdparty->id, 1);
+	}else{
+		$urlBackToList = dol_buildpath('/lead/lead/list.php', 1);
+	}
+	$linkback = '<a href="' . $urlBackToList . '">' . $langs->trans("BackToList") . '</a>';
 
 	if (getDolGlobalString('LEAD_PERSONNAL_TEMPLATE') && file_exists(dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE')))) {
 		$res = include dol_buildpath(getDolGlobalString('LEAD_PERSONNAL_TEMPLATE'));

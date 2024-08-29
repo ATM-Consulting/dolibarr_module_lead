@@ -270,10 +270,16 @@ if (!empty($socid)) {
 	$soc = new Societe($db);
 	$soc->fetch($socid);
 	$head = societe_prepare_head($soc);
+	$nbtotalofrecords = $object->fetchAll('', '', 0, 0, $filter);
 
-	dol_fiche_head($head, 'tabLead', $langs->trans("Module103111Name"),0,dol_buildpath('/lead/img/object_lead.png', 1),1);
+	print dol_get_fiche_head($head, 'tabLead', $langs->trans("Module103111Name") . $nbtotalofrecords,1, $soc->picto);
+	$linkback = '<a href="'.DOL_URL_ROOT.'/societe/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+	$morehtmlref = '';
+
+	dol_banner_tab($soc, 'socid', $linkback, ($user->socid ? 0 : 1), 'rowid', 'nom', $morehtmlref, '', 0, '', '', 'tabBar');
 }
 
+// Count total nb of records
 // Count total nb of records
 $nbtotalofrecords = 0;
 
@@ -322,7 +328,8 @@ if ($resql != - 1) {
 	}
 
 	$i = 0;
-	print '<table class="noborder" width="100%">';
+	print '<div class="div-table-responsive">';
+	print '<table class="tagtable nobottomiftotal liste listwithfilterbefore" width="100%">';
 	print '<tr class="liste_titre">';
 	if (! empty($arrayfields['t.ref']['checked'])) print_liste_field_titre($langs->trans("Ref"), $_SERVER['PHP_SELF'], "t.ref", "", $option, '', $sortfield, $sortorder);
 	if (! empty($arrayfields['t.ref_int']['checked'])) print_liste_field_titre($langs->trans("LeadRefInt"), $_SERVER['PHP_SELF'], "t.ref_int", "", $option, '', $sortfield, $sortorder);
@@ -353,7 +360,8 @@ if ($resql != - 1) {
 	}
 
 	print_liste_field_titre($selectedfields, $_SERVER["PHP_SELF"],"",'','','align="right"',$sortfield,$sortorder,'maxwidthsearch ');
-
+	print '<td>';
+	print '</td>';
 	print "</tr>\n";
 
 	print '<tr class="liste_titre">';
@@ -445,6 +453,8 @@ if ($resql != - 1) {
 	$searchpitco=$form->showFilterAndCheckAddButtons(0);
 	print $searchpitco;
 	print '</td>';
+	print '<td>';
+	print '</td>';
 
 	print "</tr>\n";
 
@@ -486,7 +496,7 @@ if ($resql != - 1) {
 		if (! empty($arrayfields['t.ref']['checked']))
 		{
 			// Ref
-			print '<td><a href="card.php?id=' . $line->id . '">' . $line->ref . '</a>';
+			print '<td><a href="card.php?id=' . $line->id . '&lead=1">' . $line->ref . '</a>';
 			if ($line->fk_c_status!=6) {
 				$result=$line->isObjectSignedExists();
 				if ($result<0) {
@@ -596,8 +606,10 @@ if ($resql != - 1) {
 			}
 			if (! $i) $totalarray['nbfield']++;
 		}
-
 		print '<td align="center"><a href="card.php?id=' . $line->id . '&action=edit'.$urlToken.'">' . img_picto($langs->trans('Edit'), 'edit') . '</td>';
+		if ($user->hasRight('lead', 'delete')) {
+			print '<td align="center"><a href="card.php?id=' . $line->id . '&fromList=1&action=delete'.$urlToken.'">' . img_picto($langs->trans('delete'), 'delete') . '</td>';
+		}else print '<td></td>';
 
 		print "</tr>\n";
 
@@ -636,6 +648,7 @@ if ($resql != - 1) {
 	print '</tr>';
 
 	print "</table>";
+	print '</div>';
 	print '</form>';
 
 	print '<script type="text/javascript" language="javascript">' . "\n";
