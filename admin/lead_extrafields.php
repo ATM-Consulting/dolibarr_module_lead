@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright (C) 2014-2016 Florian HENRY <florian.henry@atm-consulting.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ $elementtype = 'lead'; // Must be the $table_element of the class that manage ex
 
 if (! $user->admin)
 	accessforbidden();
-	
+
 	/*
  * Actions
  */
@@ -64,7 +64,7 @@ if (file_exists(DOL_DOCUMENT_ROOT . '/core/admin_extrafields.inc.php'))
 
 if (file_exists(DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php'))
 	require_once DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php';
-	
+
 	/*
  * View
  */
@@ -100,18 +100,17 @@ print '<td width="80">&nbsp;</td>';
 print "</tr>\n";
 
 $var = True;
-if(version_compare(DOL_VERSION, 17, '<') > 0) $TExtrafieldsTypes = $extrafields->attribute_type;
-else if(!empty($extrafields->attributes['lead']['type'])) $TExtrafieldsTypes = $extrafields->attributes['lead']['type'];
+if(!empty($extrafields->attributes['leazd']['type'])) $TExtrafieldsTypes = $extrafields->attributes['lead']['type'];
 if(!empty($TExtrafieldsTypes)) {
 	foreach($TExtrafieldsTypes as $key => $value) {
 		$var = ! $var;
 		print "<tr ".$bc[$var].">";
-		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attributes['lead']['label'][$key])."</td>\n";
+		print "<td>".$extrafields->attributes['lead']['label'][$key]."</td>\n";
 		print "<td>".$key."</td>\n";
-		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attributes['lead']['type'][$key])."</td>\n";
-		print '<td align="right">'.(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attributes['lead']['size'][$key])."</td>\n";
-		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attributes['lead']['unique'][$key])."</td>\n";
-		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attributes['lead']['required'][$key])."</td>\n";
+		print "<td>".$extrafields->attributes['lead']['type'][$key]."</td>\n";
+		print '<td align="right">'.$extrafields->attributes['lead']['size'][$key]."</td>\n";
+		print '<td align="center">'.yn($extrafields->attributes['lead']['unique'][$key])."</td>\n";
+		print '<td align="center">'.yn($extrafields->attributes['lead']['required'][$key])."</td>\n";
 		print '<td align="right"><a href="'.$_SERVER["PHP_SELF"].'?action=edit&attrname='.$key.'">'.img_edit().'</a>';
 		print "&nbsp; <a href=\"".$_SERVER["PHP_SELF"]."?action=delete&attrname=$key\">".img_delete()."</a></td>\n";
 		print "</tr>";
@@ -138,7 +137,7 @@ if ($action != 'create' && $action != 'edit') {
 if ($action == 'create') {
 	print "<br>";
 	print load_fiche_titre($langs->trans('NewAttribute'));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_add.tpl.php';
 }
 
@@ -150,7 +149,7 @@ if ($action == 'create') {
 if ($action == 'edit' && ! empty($attrname)) {
 	print "<br>";
 	print load_fiche_titre($langs->trans("FieldEdition", $attrname));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_edit.tpl.php';
 }
 
