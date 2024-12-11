@@ -40,10 +40,10 @@ $socid=GETPOST('socid','int');
 $mode=GETPOST('mode','alpha');
 
 // Security check
-if (((float) DOL_VERSION < 13) ? $user->societe_id : $user->socid > 0)
+if ($user->socid > 0)
 {
 	$action = '';
-	$socid = ((float) DOL_VERSION < 13) ? $user->societe_id : $user->socid;
+	$socid = $user->socid;
 }
 $nowyear=strftime("%Y", dol_now());
 $year = GETPOST('year','int')>0?GETPOST('year','int'):$nowyear;

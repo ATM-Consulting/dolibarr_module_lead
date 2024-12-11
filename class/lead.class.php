@@ -83,7 +83,7 @@ class Lead extends CommonObject
 		}
 
 		if (isModEnabled('propal')) {
-			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? isModEnabled('propal') && $user->hasRight('propale', 'lire') : isModEnabled('propal') && $user->hasRight('propal', 'lire');
+			$propalPerms = isModEnabled('propal') && $user->hasRight('propal', 'lire');
 			$this->listofreferent['propal'] = array (
 					'title' => "Proposal",
 					'class' => 'Propal',
@@ -981,9 +981,6 @@ class Lead extends CommonObject
 		$totalproposalamount = 0;
 
 		$facTotalSqlCol = 'fac.total_ht';
-		/** COMPATIBILITY DOL_VERSION < 14 */
-		if ((float)DOL_VERSION < 14) $facTotalSqlCol = 'fac.total';
-
 		$sql = "SELECT SUM($facTotalSqlCol) as totalamount ";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "facture as fac";
 		$sql .= " INNER JOIN " . MAIN_DB_PREFIX . "element_element elmt ON  elmt.fk_target=" . $this->id;
