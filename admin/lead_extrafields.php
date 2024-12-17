@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright (C) 2014-2016 Florian HENRY <florian.henry@atm-consulting.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -55,7 +55,7 @@ $elementtype = 'lead'; // Must be the $table_element of the class that manage ex
 
 if (! $user->admin)
 	accessforbidden();
-	
+
 	/*
  * Actions
  */
@@ -64,7 +64,7 @@ if (file_exists(DOL_DOCUMENT_ROOT . '/core/admin_extrafields.inc.php'))
 
 if (file_exists(DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php'))
 	require_once DOL_DOCUMENT_ROOT . '/core/actions_extrafields.inc.php';
-	
+
 	/*
  * View
  */
@@ -138,7 +138,7 @@ if ($action != 'create' && $action != 'edit') {
 if ($action == 'create') {
 	print "<br>";
 	print load_fiche_titre($langs->trans('NewAttribute'));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_add.tpl.php';
 }
 
@@ -150,7 +150,7 @@ if ($action == 'create') {
 if ($action == 'edit' && ! empty($attrname)) {
 	print "<br>";
 	print load_fiche_titre($langs->trans("FieldEdition", $attrname));
-	
+
 	require DOL_DOCUMENT_ROOT . '/core/tpl/admin_extrafields_edit.tpl.php';
 }
 

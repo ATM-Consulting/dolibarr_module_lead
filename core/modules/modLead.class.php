@@ -66,7 +66,7 @@ class modLead extends DolibarrModules
 		// Possible values for version are: 'development', 'experimental' or version
 
 
-		$this->version = '2.6.1';
+		$this->version = '2.6.2';
 
 
 		// Key used in llx_const table to save module status enabled/disabled
@@ -240,16 +240,11 @@ class modLead extends DolibarrModules
 			$conf->lead->enabled = 0;
 		}
 
-		$dictionnariesTablePrefix = '';
-                if (intval(DOL_VERSION)< 16){
-                        $dictionnariesTablePrefix =  MAIN_DB_PREFIX;
-                }
-
 		$this->dictionnaries = array(
 			'langs' => 'lead@lead',
 			'tabname' => array(
-				$dictionnariesTablePrefix . "c_lead_status",
-				$dictionnariesTablePrefix . "c_lead_type"
+				$db->prefix() . "c_lead_status",
+				$db->prefix() . "c_lead_type"
 			),
 			'tablib' => array(
 				"LeadStatusDict",
@@ -501,7 +496,6 @@ class modLead extends DolibarrModules
 		//Export propal not linked with lead
 		$r ++;
 		$propalTotalSqlCol = 'p.total_ttc';
-		if ((float) DOL_VERSION < 14) $propalTotalSqlCol = 'p.total';
 		$this->export_code [$r] = $this->rights_class . '_' . $r;
 		$this->export_label [$r] = 'ExportDataset_leadPropal';
 		$this->export_icon [$r] = 'lead@lead';

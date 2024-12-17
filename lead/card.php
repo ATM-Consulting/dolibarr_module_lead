@@ -866,7 +866,9 @@ elseif ($action == 'edit') {
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=edit'.$urlToken.'">' . $langs->trans("Edit") . "</a></div>\n";
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone'.$urlToken.'">' . $langs->trans("Clone") . "</a></div>\n";
 
-		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ? isModEnabled('propal') && $user->hasRight('propale', 'lire') : isModEnabled('propal') && $user->hasRight('propal', 'lire');
+		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ?
+			isModEnabled('propal') && $user->hasRight('propale', 'lire') :
+			isModEnabled('propal') && $user->hasRight('propal', 'lire');
 		if ($propalPerms) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_propale'.$urlToken.'">' . $langs->trans("LeadCreatePropale") . "</a></div>\n";
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone_propale'.$urlToken.'">' . $langs->trans("LeadClonePropale") . "</a></div>\n";
