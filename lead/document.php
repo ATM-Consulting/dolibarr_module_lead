@@ -77,14 +77,7 @@ if ($object->id > 0)
 {
 	$object->fetch_thirdparty();
 	$upload_dir = $conf->lead->dir_output.'/'.dol_sanitizeFileName($object->ref);
-	if((float)DOL_VERSION < 4)
-	{
-		include_once DOL_DOCUMENT_ROOT . '/core/tpl/document_actions_pre_headers.tpl.php';
-	}
-	else
-	{
-		include_once DOL_DOCUMENT_ROOT . '/core/actions_linkedfiles.inc.php';
-	}
+	include_once DOL_DOCUMENT_ROOT . '/core/actions_linkedfiles.inc.php';
 }
 
 

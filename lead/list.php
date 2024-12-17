@@ -154,7 +154,7 @@ foreach ($search_array_options as $key => $val)
 {
 	$crit=$val;
 	$tmpkey=preg_replace('/search_options_/','',$key);
-	$typ=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$tmpkey] : $extrafields->attributes['lead']['type'][$tmpkey];
+	$typ= version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$tmpkey] : $extrafields->attributes['lead']['type'][$tmpkey];
 	if ($val != '') {
 		$option.='&search_options_'.$tmpkey.'='.urlencode($val);
 	}
@@ -432,7 +432,7 @@ if ($resql != - 1) {
 			if (! empty($arrayfields["leadextra.".$key]['checked']))
 			{
 				$align=$extrafields->getAlignFlag($key);
-				$typeofextrafield=version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attributes['lead']['type'];;
+				$typeofextrafield= version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type : $extrafields->attributes['lead']['type'];;
 				print '<td class="liste_titre'.($align?' '.$align:'').'">';
 				if (in_array($typeofextrafield, array('varchar', 'int', 'double', 'select')))
 				{

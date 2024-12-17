@@ -198,10 +198,7 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 
 				$html .= '</table>';
 				$html = str_replace('"', '\"', $html);
-				$classToAppend = 'ficheaddleft';
-				if(floatval(DOL_VERSION) > 14.0) {
-					$classToAppend = 'fichehalfright';
-				}
+				$classToAppend = 'fichehalfright';
 				$js= '<script type="text/javascript">'."\n";
 				$js.= '	$(document).ready('."\n";
 				$js.= '		function () {'."\n";
