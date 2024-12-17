@@ -243,8 +243,8 @@ class modLead extends DolibarrModules
 		$this->dictionnaries = array(
 			'langs' => 'lead@lead',
 			'tabname' => array(
-				MAIN_DB_PREFIX . "c_lead_status",
-				MAIN_DB_PREFIX . "c_lead_type"
+				$db->prefix() . "c_lead_status",
+				$db->prefix() . "c_lead_type"
 			),
 			'tablib' => array(
 				"LeadStatusDict",

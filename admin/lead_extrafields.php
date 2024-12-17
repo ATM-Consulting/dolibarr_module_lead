@@ -100,17 +100,18 @@ print '<td width="80">&nbsp;</td>';
 print "</tr>\n";
 
 $var = True;
-if(!empty($extrafields->attributes['leazd']['type'])) $TExtrafieldsTypes = $extrafields->attributes['lead']['type'];
+if(version_compare(DOL_VERSION, 17, '<') > 0) $TExtrafieldsTypes = $extrafields->attribute_type;
+else if(!empty($extrafields->attributes['lead']['type'])) $TExtrafieldsTypes = $extrafields->attributes['lead']['type'];
 if(!empty($TExtrafieldsTypes)) {
 	foreach($TExtrafieldsTypes as $key => $value) {
 		$var = ! $var;
 		print "<tr ".$bc[$var].">";
-		print "<td>".$extrafields->attributes['lead']['label'][$key]."</td>\n";
+		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label[$key] : $extrafields->attributes['lead']['label'][$key])."</td>\n";
 		print "<td>".$key."</td>\n";
-		print "<td>".$extrafields->attributes['lead']['type'][$key]."</td>\n";
-		print '<td align="right">'.$extrafields->attributes['lead']['size'][$key]."</td>\n";
-		print '<td align="center">'.yn($extrafields->attributes['lead']['unique'][$key])."</td>\n";
-		print '<td align="center">'.yn($extrafields->attributes['lead']['required'][$key])."</td>\n";
+		print "<td>".(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_type[$key] : $extrafields->attributes['lead']['type'][$key])."</td>\n";
+		print '<td align="right">'.(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_size[$key] : $extrafields->attributes['lead']['size'][$key])."</td>\n";
+		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_unique[$key] : $extrafields->attributes['lead']['unique'][$key])."</td>\n";
+		print '<td align="center">'.yn(version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_required[$key] : $extrafields->attributes['lead']['required'][$key])."</td>\n";
 		print '<td align="right"><a href="'.$_SERVER["PHP_SELF"].'?action=edit&attrname='.$key.'">'.img_edit().'</a>';
 		print "&nbsp; <a href=\"".$_SERVER["PHP_SELF"]."?action=delete&attrname=$key\">".img_delete()."</a></td>\n";
 		print "</tr>";

@@ -499,7 +499,7 @@ if ($action == 'create' && $user->hasRight('lead', 'write')) {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = $extrafields->attributes['lead']['label'] ?? [];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields, 'edit');
 		}
@@ -611,7 +611,7 @@ elseif ($action == 'edit') {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = $extrafields->attributes['lead']['label'] ?? [];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields, 'edit');
 		}
@@ -848,7 +848,7 @@ elseif ($action == 'edit') {
 		// Other attributes
 		$reshook = $hookmanager->executeHooks('formObjectOptions', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 
-		$extrafieldsActtributeLabel = $extrafields->attributes['lead']['label'] ?? [];
+		$extrafieldsActtributeLabel = version_compare(DOL_VERSION, 17, '<') > 0 ? $extrafields->attribute_label : $extrafields->attributes['lead']['label'] ?? [];
 		if (empty($reshook) && ! empty($extrafieldsActtributeLabel)) {
 			print $object->showOptionals($extrafields);
 		}
@@ -866,7 +866,9 @@ elseif ($action == 'edit') {
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=edit'.$urlToken.'">' . $langs->trans("Edit") . "</a></div>\n";
 		print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone'.$urlToken.'">' . $langs->trans("Clone") . "</a></div>\n";
 
-		$propalPerms = isModEnabled('propal') && $user->hasRight('propal', 'lire');
+		$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ?
+			isModEnabled('propal') && $user->hasRight('propale', 'lire') :
+			isModEnabled('propal') && $user->hasRight('propal', 'lire');
 		if ($propalPerms) {
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=create_propale'.$urlToken.'">' . $langs->trans("LeadCreatePropale") . "</a></div>\n";
 			print '<div class="inline-block divButAction"><a class="butAction" href="' . $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=clone_propale'.$urlToken.'">' . $langs->trans("LeadClonePropale") . "</a></div>\n";
