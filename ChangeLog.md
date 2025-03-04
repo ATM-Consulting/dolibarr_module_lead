@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ### Unreleased
 
 ## Release 2.6
+
+- FIX : fatal loading widget on welcome page - *03/03/2025* - 2.6.4
 - FIX : files size logo - *20/02/2025* - 2.6.3  
 - FIX : Compat v21 - *11/12/2024* - 2.6.2
 - FIX : Refonte onglet Affaires DA025406 - *29/08/2024* - 2.6.1
