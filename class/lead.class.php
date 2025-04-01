@@ -576,12 +576,7 @@ class Lead extends CommonObject
 				$line->tms = $this->db->jdate($obj->tms);
 				$line->status_label = $this->status[$line->fk_c_status];
 				$line->type_label = $this->type[$line->fk_c_type];
-
-				$extrafields = new ExtraFields($this->db);
-				$extralabels = $extrafields->fetch_name_optionals_label($this->table_element, true);
-				if (count($extralabels) > 0) {
-					$line->fetch_optionals($line->id, $extralabels);
-				}
+				$line->fetch_optionals($line->id);
 
 				$this->lines[] = $line;
 			}
