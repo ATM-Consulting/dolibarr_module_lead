@@ -287,6 +287,8 @@ if ($action == "add") {
 	}
 } else if ($action == "confirm_lost" && $confirm == 'yes') {
 	$propal_to_close = [];
+	$leadId = $object->id;
+
 	foreach($_GET as $key=>$value) {
 		if (strpos($key,'propale_id_')!==false && $value=='on') {
 			$propal_to_close[]=str_replace('propale_id_', '', $key);
@@ -305,10 +307,12 @@ if ($action == "add") {
 			setEventMessages(null, $object->errors, 'errors');
 		}
 
-		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $object->id);
+		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $leadId);
 	}
 } else if ($action == "confirm_win" && $confirm == 'yes') {
 	$propal_to_close = [];
+	$leadId = $object->id;
+
 	foreach($_GET as $key=>$value) {
 		if (strpos($key,'propale_id_')!==false  && $value=='on' ) {
 			$propal_to_close[]=str_replace('propale_id_', '', $key);
@@ -326,7 +330,7 @@ if ($action == "add") {
 			setEventMessages(null, $object->errors, 'errors');
 		}
 
-		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $object->id);
+		header('Location:' . $_SERVER["PHP_SELF"] . '?id=' . $leadId);
 	}
 } else if ($action === 'confirm_relance' && GETPOST('confirm','alpha') === 'yes') {
 
