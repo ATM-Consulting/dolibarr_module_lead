@@ -66,7 +66,7 @@ class modLead extends DolibarrModules
 		// Possible values for version are: 'development', 'experimental' or version
 
 
-		$this->version = '2.6.6';
+		$this->version = '2.7.0';
 
 
 		// Key used in llx_const table to save module status enabled/disabled
@@ -136,7 +136,7 @@ class modLead extends DolibarrModules
 		);
 		// Minimum version of Dolibarr required by module
 		$this->need_dolibarr_version = array(
-			16,
+			17,
 			0
 		);
 		$this->langfiles = array(

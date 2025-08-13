@@ -83,9 +83,7 @@ class Lead extends CommonObject
 		}
 
 		if (isModEnabled('propal')) {
-			$propalPerms = version_compare(DOL_VERSION, 17, '<') > 0 ?
-				isModEnabled('propal') && $user->hasRight('propale', 'lire') :
-				isModEnabled('propal') && $user->hasRight('propal', 'lire');
+			$propalPerms = isModEnabled('propal') && $user->hasRight('propal', 'lire');
 			$this->listofreferent['propal'] = array (
 					'title' => "Proposal",
 					'class' => 'Propal',
