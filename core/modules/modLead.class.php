@@ -136,7 +136,7 @@ class modLead extends DolibarrModules
 		);
 		// Minimum version of Dolibarr required by module
 		$this->need_dolibarr_version = array(
-			16,
+			17,
 			0
 		);
 		$this->langfiles = array(
