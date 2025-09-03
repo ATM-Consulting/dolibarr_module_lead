@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ### Unreleased
+
+## Release 2.7
 - NEW : Compat V22, change dolibarr compatibility range : 17.0 -> 22.0 - **08/08/2025** - 2.7.0
 
 ## Release 2.6
