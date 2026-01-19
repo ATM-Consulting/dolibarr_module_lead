@@ -157,7 +157,6 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 
 				$filter['so.rowid'] = $object->id;
 
-				//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 				$resql = $lead->fetchAll('DESC', 't.date_closure', 0, 0, $filter);
 
 				if ($resql == - 1) {
@@ -166,8 +165,6 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 
 				$total_lead = count($lead->lines);
 
-				// $filter['so.rowid'] = $object->id;
-				//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 				$resql = $lead->fetchAll('DESC', 't.date_closure', 3, 0, $filter);
 				if ($resql == - 1) {
 					setEventMessages(null, $object->errors, 'errors');
@@ -245,10 +242,10 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 	 * addSearchEntry Method Hook Call
 	 *
 	 * @param array $parameters parameters
-	 * @param Object &$object Object to use hooks on
-	 * @param string &$action Action code on calling page ('create', 'edit', 'view', 'add', 'update', 'delete'...)
-	 * @param object $hookmanager class instance
-	 * @return void
+	 * @param Object $object Object to use hooks on
+	 * @param string $action Action code on calling page ('create', 'edit', 'view', 'add', 'update', 'delete'...)
+	 * @param HookManager $hookmanager class instance
+	 * @return int
 	 */
 	public function addSearchEntry($parameters, &$object, &$action, $hookmanager) {
 		global $langs, $db, $user;
@@ -315,7 +312,7 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 	 * @param   array           $parameters     Array of parameters
 	 * @param   CommonObject    $object         The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
 	 * @param   string          $action         'add', 'update', 'view'
-	 * @param   Hookmanager     $hookmanager    hookmanager
+	 * @param   HookManager     $hookmanager    hookmanager
 	 * @return  int                             Return integer <0 if KO,
 	 *                                          =0 if OK but we want to process standard actions too,
 	 *                                          >0 if OK and we want to replace standard actions.

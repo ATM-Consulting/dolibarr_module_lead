@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright (C) 2014-2016 Florian HENRY <florian.henry@atm-consulting.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -137,7 +137,7 @@ $userstatic = new User($db);
 	) as $source) {
 		$tab = $object->liste_contact(- 1, $source);
 		$num = count($tab);
-		
+
 		$i = 0;
 		while ($i < $num) {
 			$var = ! $var;

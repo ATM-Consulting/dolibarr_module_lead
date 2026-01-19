@@ -31,37 +31,47 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
  */
 class Lead extends CommonObject
 {
-	var $db; // !< To store db handler
-	var $error; // !< To return error code (or message)
-	var $errors = array (); // !< To return several error codes (or messages)
-	var $element = 'lead'; // !< Id that identify managed objects
-	var $table_element = 'lead'; // !< Name of table without prefix where object is stored
-	public  $ismultientitymanaged = 1; // 0=No test on entity, 1=Test with field entity, 2=Test with link by societe
-	var $id;
-	var $ref;
-	var $ref_ext;
-	var $ref_int;
-	var $fk_soc;
-	var $socid;
-	var $fk_c_status;
-	var $status_label;
-	var $fk_c_type;
-	var $type_label;
-	var $date_closure = '';
-	var $amount_prosp;
-	var $fk_user_resp;
-	var $description;
-	var $fk_user_author;
-	var $datec = '';
-	var $fk_user_mod;
-	var $tms = '';
-	var $note_public = '';
-	var $note_private = '';
-	var $lines = array ();
-	var $doclines = array ();
-	var $status = array ();
-	var $type = array ();
-	var $listofreferent = array ();
+	/** @var DoliDB To store db handler */
+	public $db;
+	/** @var string To return error code (or message) */
+	public $error;
+	/** @var array To return several error codes (or messages) */
+	public $errors = array();
+	/** @var string Id that identify managed objects */
+	public $element = 'lead';
+	/** @var string Name of table without prefix where object is stored */
+	public $table_element = 'lead';
+	/** @var int 0=No test on entity, 1=Test with field entity, 2=Test with link by societe */
+	public $ismultientitymanaged = 1;
+
+	/** @var string Prefix for triggers */
+	public $TRIGGER_PREFIX = 'LEAD';
+
+	public $id;
+	public $ref;
+	public $ref_ext;
+	public $ref_int;
+	public $fk_soc;
+	public $socid;
+	public $fk_c_status;
+	public $status_label;
+	public $fk_c_type;
+	public $type_label;
+	public $date_closure = '';
+	public $amount_prosp;
+	public $fk_user_resp;
+	public $description;
+	public $fk_user_author;
+	public $datec = '';
+	public $fk_user_mod;
+	public $tms = '';
+	public $note_public = '';
+	public $note_private = '';
+	public $lines = array();
+	public $doclines = array();
+	public $status = array();
+	public $type = array();
+	public $listofreferent = array();
 
 	/**
 	 * Constructor

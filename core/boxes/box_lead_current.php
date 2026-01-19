@@ -77,7 +77,6 @@ class box_lead_current extends ModeleBoxes
 
 		$lead = new Lead($db);
 
-		//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 		$lead->fetchAll('DESC', 't.ref', $max, 0);
 
 		$text = $langs->trans("LeadList");
