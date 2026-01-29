@@ -284,10 +284,8 @@ if (!empty($socid)) {
 $nbtotalofrecords = 0;
 
 if (!getDolGlobalString('MAIN_DISABLE_FULL_SCANLIST')) {
-	//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 	$nbtotalofrecords = $object->fetchAll($sortorder, $sortfield, 0, 0, $filter);
 }
-//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 $resql = $object->fetchAll($sortorder, $sortfield, $conf->liste_limit, $offset, $filter);
 
 if ($resql != - 1) {

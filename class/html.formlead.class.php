@@ -42,7 +42,7 @@ class FormLead extends Form
 	function select_element($tablename, $lead, $htmlname = 'elementselect')
 	{
 		global $langs, $conf;
-		
+
 		$primary = 'rowid';
 		switch ($tablename) {
 			case "facture":
@@ -89,7 +89,7 @@ class FormLead extends Form
 			$sql .= ' WHERE ' . implode(' AND ', $sqlwhere);
 		}
 		$sql .= $this->db->order('ref','DESC');
-		
+
 		dol_syslog(get_class($this) . "::".__METHOD__, LOG_DEBUG);
 
 		$resql = $this->db->query($sql);
@@ -217,7 +217,6 @@ class FormLead extends Form
 
 		$lead = new Lead($this->db);
 
-		//[COMPAT v17] Pas besoin de versioncompare, le nom de la fonction ayant été changé pour la nouvelle realease du module
 		$result = $lead->fetchAll('DESC', 't.ref', 0, 0, $filter);
 		if ($result<0) {
 			setEventMessages(null, $lead->errors, 'errors');
