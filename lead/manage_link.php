@@ -54,7 +54,7 @@ if (! $error) {
 }
 if (! $error) {
 	if ($action == 'link') {
-		
+
 		$result = $object->add_object_linked($tablename, $elementselectid);
 		if ($result < 0) {
 			setEventMessages(null, $object->errors, 'errors');
@@ -63,7 +63,7 @@ if (! $error) {
 	if ($action == 'unlink') {
 		$sourceid = GETPOST('sourceid','int');
 		$sourcetype = GETPOST('sourcetype','alpha');
-		
+
 		$result = $object->deleteObjectLinked($sourceid, $sourcetype);
 		if ($result < 0) {
 			setEventMessages(null, $object->errors, 'errors');

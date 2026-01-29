@@ -64,11 +64,7 @@ class modLead extends DolibarrModules
 		// (where XXX is value of numeric property 'numero' of module)
 		$this->description = "Description of module Lead";
 		// Possible values for version are: 'development', 'experimental' or version
-
-
-		$this->version = '2.7.0';
-
-
+		$this->version = '2.7.1';
 		// Key used in llx_const table to save module status enabled/disabled
 		// (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
@@ -81,33 +77,13 @@ class modLead extends DolibarrModules
 		// If file is in module/img directory under name object_pictovalue.png
 		// use this->picto='pictovalue@module'
 		$this->picto = 'module.svg@lead'; // mypicto@lead
-		                            // Defined all module parts (triggers, login, substitutions, menus, css, etc...)
-		                            // for default path (eg: /lead/core/xxxxx) (0=disable, 1=enable)
-		                            // for specific path of parts (eg: /lead/core/modules/barcode)
-		                            // for specific css file (eg: /lead/css/lead.css.php)
+
 		$this->module_parts = array(
-			// Set this to 1 if module has its own trigger directory
-			// 'triggers' => 1,
-			// Set this to 1 if module has its own login method directory
-			// 'login' => 0,
-			// Set this to 1 if module has its own substitution function file
-			// 'substitutions' => 0,
-			// Set this to 1 if module has its own menus handler directory
-			// 'menus' => 0,
-			// Set this to 1 if module has its own barcode directory
-			// 'barcode' => 0,
-			// Set this to 1 if module has its own models directory
 			'models' => 1,
-		// Set this to relative path of css if module has its own css file
-		// 'css' => '/lead/css/mycss.css.php',
-		// Set here all hooks context managed by module
 			'hooks' => array('commonobject','commcard','propalcard','contractcard','ordercard','searchform','invoicecard', 'thirdpartycard'),
-		// Set here all workflow context managed by module
-		// 'workflow' => array('order' => array('WORKFLOW_ORDER_AUTOCREATE_INVOICE'))
-				);
+		);
 
 		// Data directories to create when module is enabled.
-		// Example: this->dirs = array("/lead/temp");
 		$this->dirs = array(
 			'/lead',
 			'/lead/stats'
@@ -141,11 +117,8 @@ class modLead extends DolibarrModules
 		);
 		$this->langfiles = array(
 			"lead@lead"
-		); // langfiles@lead
-		                                       // Constants
-		                                       // List of particular constants to add when module is enabled
-		                                       // (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
-		                                       // Example:
+		);
+
 		$this->const = array(
 			0 => array(
 				'LEAD_ADDON',
@@ -207,33 +180,8 @@ class modLead extends DolibarrModules
 		// Example:
 		$this->tabs = array(
 			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read"):/lead/lead/list.php?socid=__ID__',
-//			'thirdparty:+tabLead:Module103111Name:lead@lead:$user->hasRight("lead", "read") && ($object->client > 0 || $soc->client > 0):/lead/lead/list.php?socid=__ID__',
-			//'invoice:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_invoiceid=__ID__',
-			//'propal:+tabAgefodd:AgfMenuSess:agefodd@agefodd:/lead/lead/list.php?search_propalid=__ID__',
-		// // To add a new tab identified by code tabname1
-		// 'objecttype:+tabname1:Title1:langfile@lead:$user->hasRight('lead', 'read'):/lead/mynewtab1.php?id=__ID__',
-		// // To add another new tab identified by code tabname2
-		// 'objecttype:+tabname2:Title2:langfile@lead:$user->hasRight('othermodule', 'read'):/lead/mynewtab2.php?id=__ID__',
-		// // To remove an existing tab identified by code tabname
-		// 'objecttype:-tabname'
-				);
-		// where objecttype can be
-		// 'thirdparty' to add a tab in third party view
-		// 'intervention' to add a tab in intervention view
-		// 'order_supplier' to add a tab in supplier order view
-		// 'invoice_supplier' to add a tab in supplier invoice view
-		// 'invoice' to add a tab in customer invoice view
-		// 'order' to add a tab in customer order view
-		// 'product' to add a tab in product view
-		// 'stock' to add a tab in stock view
-		// 'propal' to add a tab in propal view
-		// 'member' to add a tab in fundation member view
-		// 'contract' to add a tab in contract view
-		// 'user' to add a tab in user view
-		// 'group' to add a tab in group view
-		// 'contact' to add a tab in contact view
-		// 'categories_x' to add a tab in category view
-		// (replace 'x' by type of category (0=product, 1=supplier, 2=customer, 3=member)
+		);
+
 		// Dictionnaries
 		if (! isModEnabled('lead')) {
 			$conf->lead = (object) array();
@@ -533,96 +481,6 @@ class modLead extends DolibarrModules
 		$this->export_sql_end [$r] .= ' WHERE so.entity IN (' . getEntity("societe", 1) . ')';
 		$this->export_sql_end [$r] .= '  AND p.rowid NOT IN (SELECT t.fk_source FROM ' . MAIN_DB_PREFIX . 'element_element as t WHERE t.sourcetype=\'propal\' AND t.targettype=\'lead\')';
 
-
-		// Example:
-		// $this->export_code[$r]=$this->rights_class.'_'.$r;
-		// // Translation key (used only if key ExportDataset_xxx_z not found)
-		// $this->export_label[$r]='CustomersInvoicesAndInvoiceLines';
-		// // Condition to show export in list (ie: '$user->id==3').
-		// // Set to 1 to always show when module is enabled.
-		// $this->export_enabled[$r]='1';
-		// $this->export_permission[$r]=array(array("facture","facture","export"));
-		// $this->export_fields_array[$r]=array(
-		// 's.rowid'=>"IdCompany",
-		// 's.nom'=>'CompanyName',
-		// 's.address'=>'Address',
-		// 's.cp'=>'Zip',
-		// 's.ville'=>'Town',
-		// 's.fk_pays'=>'Country',
-		// 's.tel'=>'Phone',
-		// 's.siren'=>'ProfId1',
-		// 's.siret'=>'ProfId2',
-		// 's.ape'=>'ProfId3',
-		// 's.idprof4'=>'ProfId4',
-		// 's.code_compta'=>'CustomerAccountancyCode',
-		// 's.code_compta_fournisseur'=>'SupplierAccountancyCode',
-		// 'f.rowid'=>"InvoiceId",
-		// 'f.facnumber'=>"InvoiceRef",
-		// 'f.datec'=>"InvoiceDateCreation",
-		// 'f.datef'=>"DateInvoice",
-		// 'f.total'=>"TotalHT",
-		// 'f.total_ttc'=>"TotalTTC",
-		// 'f.tva'=>"TotalVAT",
-		// 'f.paye'=>"InvoicePaid",
-		// 'f.fk_statut'=>'InvoiceStatus',
-		// 'f.note'=>"InvoiceNote",
-		// 'fd.rowid'=>'LineId',
-		// 'fd.description'=>"LineDescription",
-		// 'fd.price'=>"LineUnitPrice",
-		// 'fd.tva_tx'=>"LineVATRate",
-		// 'fd.qty'=>"LineQty",
-		// 'fd.total_ht'=>"LineTotalHT",
-		// 'fd.total_tva'=>"LineTotalTVA",
-		// 'fd.total_ttc'=>"LineTotalTTC",
-		// 'fd.date_start'=>"DateStart",
-		// 'fd.date_end'=>"DateEnd",
-		// 'fd.fk_product'=>'ProductId',
-		// 'p.ref'=>'ProductRef'
-		// );
-		// $this->export_entities_array[$r]=array('s.rowid'=>"company",
-		// 's.nom'=>'company',
-		// 's.address'=>'company',
-		// 's.cp'=>'company',
-		// 's.ville'=>'company',
-		// 's.fk_pays'=>'company',
-		// 's.tel'=>'company',
-		// 's.siren'=>'company',
-		// 's.siret'=>'company',
-		// 's.ape'=>'company',
-		// 's.idprof4'=>'company',
-		// 's.code_compta'=>'company',
-		// 's.code_compta_fournisseur'=>'company',
-		// 'f.rowid'=>"invoice",
-		// 'f.facnumber'=>"invoice",
-		// 'f.datec'=>"invoice",
-		// 'f.datef'=>"invoice",
-		// 'f.total'=>"invoice",
-		// 'f.total_ttc'=>"invoice",
-		// 'f.tva'=>"invoice",
-		// 'f.paye'=>"invoice",
-		// 'f.fk_statut'=>'invoice',
-		// 'f.note'=>"invoice",
-		// 'fd.rowid'=>'invoice_line',
-		// 'fd.description'=>"invoice_line",
-		// 'fd.price'=>"invoice_line",
-		// 'fd.total_ht'=>"invoice_line",
-		// 'fd.total_tva'=>"invoice_line",
-		// 'fd.total_ttc'=>"invoice_line",
-		// 'fd.tva_tx'=>"invoice_line",
-		// 'fd.qty'=>"invoice_line",
-		// 'fd.date_start'=>"invoice_line",
-		// 'fd.date_end'=>"invoice_line",
-		// 'fd.fk_product'=>'product',
-		// 'p.ref'=>'product'
-		// );
-		// $this->export_sql_start[$r] = 'SELECT DISTINCT ';
-		// $this->export_sql_end[$r] = ' FROM (' . MAIN_DB_PREFIX . 'facture as f, '
-		// . MAIN_DB_PREFIX . 'facturedet as fd, ' . MAIN_DB_PREFIX . 'societe as s)';
-		// $this->export_sql_end[$r] .= ' LEFT JOIN ' . MAIN_DB_PREFIX
-		// . 'product as p on (fd.fk_product = p.rowid)';
-		// $this->export_sql_end[$r] .= ' WHERE f.fk_soc = s.rowid '
-		// . 'AND f.rowid = fd.fk_facture';
-		// $r++;
 	}
 
 	/**
@@ -637,7 +495,6 @@ class modLead extends DolibarrModules
 	public function init($options = '')
 	{
 		$sql = array();
-
 		$result = $this->loadTables();
 
 		return $this->_init($sql, $options);

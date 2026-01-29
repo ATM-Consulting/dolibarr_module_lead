@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright (C) 2014-2016 Florian HENRY <florian.henry@atm-consulting.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -66,10 +66,10 @@ class mod_lead_simple extends ModeleNumRefLead
 	function canBeActivated()
 	{
 		global $conf, $langs;
-		
+
 		$coyymm = '';
 		$max = '';
-		
+
 		$posindice = 8;
 		$sql = "SELECT MAX(SUBSTRING(ref FROM " . $posindice . ")) as max";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "lead";
@@ -103,13 +103,13 @@ class mod_lead_simple extends ModeleNumRefLead
 	function getNextValue($fk_user, $objsoc, $lead)
 	{
 		global $db, $conf;
-		
+
 		// D'abord on recupere la valeur max
 		$posindice = 10;
 		$sql = "SELECT MAX(SUBSTRING(ref FROM " . $posindice . ")) as max";
 		$sql .= " FROM " . MAIN_DB_PREFIX . "lead";
 		$sql .= " WHERE ref like '" . $this->prefix . "____-%'";
-		
+
 		$resql = $db->query($sql);
 		if ($resql) {
 			$obj = $db->fetch_object($resql);
@@ -121,13 +121,13 @@ class mod_lead_simple extends ModeleNumRefLead
 			dol_syslog("mod_lead_simple::getNextValue sql=" . $sql);
 			return - 1;
 		}
-		
+
 		$date = empty($lead->datec) ? dol_now() : $lead->datec;
-		
+
 		// $yymm = strftime("%y%m",time());
 		$yymm = strftime("%y%m", $date);
 		$num = sprintf("%04s", $max + 1);
-		
+
 		dol_syslog("mod_lead_simple::getNextValue return " . $this->prefix . $yymm . "-" . $num);
 		return $this->prefix . $yymm . "-" . $num;
 	}
