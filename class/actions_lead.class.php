@@ -99,7 +99,7 @@ class ActionsLead extends lead\RetroCompatCommonHookActions // extends CommonObj
 			foreach ( $lead->doclines as $line ) {
 				print '<tr><td>';
 				print $line->getNomUrl(1).' - '.$line->ref_int.' ('.$line->status_label.' - '.$line->type_label.')';
-				print '<a href="' . dol_buildpath("/lead/lead/manage_link.php", 1) . '?action=unlink&sourceid=' . (!empty($object->rowid) ? $object->rowid : $object->id);
+				print '<a href="' . dol_buildpath("/lead/lead/manage_link.php", 1) . '?action=unlink&token=' . newToken() . '&sourceid=' . (!empty($object->rowid) ? $object->rowid : $object->id);
 				print '&sourcetype=' . $object->table_element;
 				print '&leadid=' . $line->id;
 				print '&redirect=' . urlencode($_SERVER['REQUEST_URI']);

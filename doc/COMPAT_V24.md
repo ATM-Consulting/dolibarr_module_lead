@@ -51,11 +51,25 @@ qualité/sécurité préexistant, à traiter séparément le cas échéant.)
   `module_parts` : `models=1` + 8 contextes de hook.
 - Scan méthodes cœur supprimées en v24 (hors `backport/`) : aucune occurrence.
 
+## Checks complémentaires (toujours actifs — `references/checks/`)
+
+### csrf-token (MAIN_SECURITY_CSRF_WITH_TOKEN = 3 par défaut en v24)
+
+**AFFECTÉ → corrigé en 2.8.2.** 6 liens GET d'action modifiante sans token (→ 403 en v24) :
+`setmod` (admin), `delete` (extrafield admin), `unlink` (×2 : `actions_lead`/`card.php`),
+`swapstatut` et `deletecontact` (`tpl/contacts.tpl.php`). Fix : ajout de `&token='.newToken()`
+sur chaque lien (patron cœur). Aucun `define('NOCSRFCHECK')` sur les pages concernées. Les
+formulaires POST (`contacts.tpl.php`) portaient déjà leur token.
+
+### code-compta (`Societe::$code_compta` non peuplé par `fetch()`)
+
+**N/A.** Aucune lecture de `->code_compta` (bare) dans le module.
+
 ## Synthèse
 
-| Sévérité | ChangeLog v24 | Extra | Total |
+| Sévérité | ChangeLog v24 | Complémentaires | Total |
 |---|---|---|---|
 | BLOCKER | 0 | 0 | 0 |
-| WARNING | 0 | 0 | 0 |
+| WARNING | 0 | 1 (csrf-token, corrigé) | 1 |
 | INFO | 0 | 0 | 0 |
-| N/A | 10 | 0 | 10 |
+| N/A | 10 | 1 (code-compta) | 11 |

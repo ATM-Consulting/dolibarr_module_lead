@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ### Unreleased
 
 ## Release 2.8
+- FIX : Compat V24 - CSRF token added on state-changing GET action links (setmod, delete extrafield, unlink, swapstatut, deletecontact) for MAIN_SECURITY_CSRF_WITH_TOKEN=3 - **30/06/2026** - 2.8.2
 - FIX : Compat V24 - **30/06/2026** - 2.8.1
 - NEW : Compat V23 - **01/04/2026** - 2.8
 
