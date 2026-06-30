@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ### Unreleased
 
 ## Release 2.8
+- FIX : Compat V24 - **30/06/2026** - 2.8.1
 - NEW : Compat V23 - **01/04/2026** - 2.8
 
 ## Release 2.7
