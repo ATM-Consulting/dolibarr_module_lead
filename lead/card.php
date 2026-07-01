@@ -964,7 +964,7 @@ elseif ($action == 'edit') {
 					print "<tr " . $bc[$var] . ">";
 
 					print '<td width="1%">';
-					print '<a href="' . $_SERVER["PHP_SELF"] . '?id=' . $id . '&action=unlink&sourceid=' . $element->id . '&sourcetype=' . $tablename . '">' . img_picto($langs->trans('LeadUnlinkDoc'), 'unlink.png@lead') . '</a>';
+					print '<a href="' . $_SERVER["PHP_SELF"] . '?id=' . $id . '&action=unlink&token=' . newToken() . '&sourceid=' . $element->id . '&sourcetype=' . $tablename . '">' . img_picto($langs->trans('LeadUnlinkDoc'), 'unlink.png@lead') . '</a>';
 					print "</td>\n";
 
 					// Ref

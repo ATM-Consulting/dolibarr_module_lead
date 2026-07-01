@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 ### Unreleased
 
 ## Release 2.8
+- FIX : Compat V24 - CSRF token added on state-changing GET action links (setmod, delete extrafield, unlink, swapstatut, deletecontact) for MAIN_SECURITY_CSRF_WITH_TOKEN=3 - **30/06/2026** - 2.8.2
+- FIX : Compat V24 - **30/06/2026** - 2.8.1
 - NEW : Compat V23 - **01/04/2026** - 2.8
 
 ## Release 2.7
@@ -13,9 +15,9 @@ All notable changes to this project will be documented in this file.
 ## Release 2.6
 
 - FIX : when you check a a object to confirm win or loss, this redirects to a lead with the id of propal selected - *15/04/2025* - 2.6.6
-- FIX : fatal when you to confirm win or loss without checking checkbox - *01/04/2025* - 2.6.5  
+- FIX : fatal when you to confirm win or loss without checking checkbox - *01/04/2025* - 2.6.5
 - FIX : fatal loading widget on welcome page - *03/03/2025* - 2.6.4
-- FIX : files size logo - *20/02/2025* - 2.6.3  
+- FIX : files size logo - *20/02/2025* - 2.6.3
 - FIX : Compat v21 - *11/12/2024* - 2.6.2
 - FIX : Refonte onglet Affaires DA025406 - *29/08/2024* - 2.6.1
 - NEW : Compat v20 - *19/07/2024* - 2.6.0
@@ -29,7 +31,7 @@ All notable changes to this project will be documented in this file.
 ## Release 2.3
 
 
-- FIX : remove warning array in action file  - *25/03/2024* - 2.3.21  
+- FIX : remove warning array in action file  - *25/03/2024* - 2.3.21
 
 - FIX : change parameters order for implode function (deprecated since PHP 7.4) - *08/11/2023* - 2.3.20
 - FIX : protected field to public field in lead.class - *19/05/2023* - 2.3.19
@@ -69,7 +71,7 @@ All notable changes to this project will be documented in this file.
 FIX : delete "setPrecisionY" function
 
 ***** ChangeLog for 2.0 compared to 1.16 *****
-NEW : Better management of close or open leads 
+NEW : Better management of close or open leads
 
 ***** ChangeLog for 1.16 compared to 1.15 *****
 NEW : Only for 5.0 with good list management
@@ -100,7 +102,7 @@ FIX : Add option to link multiple lead on contract (from contract card)
 ***** ChangeLog for 1.8 compared to 1.7 *****
 NEW : Add setting to disabeld thirdparty mandatory field
 NEW : Add option to link multiple lead on contract
-FIX : Shouldn't propose disabled users #13 
+FIX : Shouldn't propose disabled users #13
 
 ***** ChangeLog for 1.7 compared to 1.6 *****
 FIX : Fix problem with Dolibarr 3.8
