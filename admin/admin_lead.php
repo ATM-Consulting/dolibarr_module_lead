@@ -238,7 +238,7 @@ foreach ( $dirmodels as $reldir ) {
 						if (getDolGlobalString('LEAD_ADDON') == "$file") {
 							print img_picto($langs->trans("Activated"), 'switch_on');
 						} else {
-							print '<a href="' . $_SERVER["PHP_SELF"] . '?action=setmod&amp;value=' . $file . '">';
+							print '<a href="' . $_SERVER["PHP_SELF"] . '?action=setmod&amp;token=' . newToken() . '&amp;value=' . $file . '">';
 							print img_picto($langs->trans("Disabled"), 'switch_off');
 							print '</a>';
 						}

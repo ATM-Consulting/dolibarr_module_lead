@@ -180,7 +180,7 @@ $userstatic = new User($db);
 		</div>
 		<div class="tagtd"><?php echo $tab[$i]['libelle']; ?></div>
 		<div class="tagtd" align="center">
-			<?php if ($object->statut >= 0) echo '<a href="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'&amp;action=swapstatut&amp;ligne='.$tab[$i]['rowid'].'">'; ?>
+			<?php if ($object->statut >= 0) echo '<a href="'.$_SERVER['PHP_SELF'].'?id='.$object->id.'&amp;action=swapstatut&amp;token='.newToken().'&amp;ligne='.$tab[$i]['rowid'].'">'; ?>
 			<?php
 			if ($tab[$i]['source'] == 'internal') {
 				$userstatic->id = $tab[$i]['id'];
@@ -200,7 +200,7 @@ $userstatic = new User($db);
 		<div class="tagtd nowrap" align="center">
 			<?php if ($permission) { ?>
 				&nbsp;<a
-				href="<?php echo $_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=deletecontact&amp;lineid='.$tab[$i]['rowid']; ?>"><?php echo img_delete(); ?></a>
+				href="<?php echo $_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=deletecontact&amp;token='.newToken().'&amp;lineid='.$tab[$i]['rowid']; ?>"><?php echo img_delete(); ?></a>
 			<?php } ?>
 		</div>
 	</form>

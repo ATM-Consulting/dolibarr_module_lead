@@ -112,7 +112,7 @@ if(!empty($TExtrafieldsTypes)) {
 		print '<td align="center">'.yn($extrafields->attributes['lead']['unique'][$key])."</td>\n";
 		print '<td align="center">'.yn($extrafields->attributes['lead']['required'][$key])."</td>\n";
 		print '<td align="right"><a href="'.$_SERVER["PHP_SELF"].'?action=edit&attrname='.$key.'">'.img_edit().'</a>';
-		print "&nbsp; <a href=\"".$_SERVER["PHP_SELF"]."?action=delete&attrname=$key\">".img_delete()."</a></td>\n";
+		print "&nbsp; <a href=\"".$_SERVER["PHP_SELF"]."?action=delete&token=".newToken()."&attrname=$key\">".img_delete()."</a></td>\n";
 		print "</tr>";
 	}
 }
